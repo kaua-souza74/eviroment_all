@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#55bce8">
+  <title>Ranking · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <script src="game-pages.js"></script>
+</head>
+<body>
+  <main class="game-stage">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:6%;--time:14s;--delay:-6s;--drift:25px;--turn:320deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:91%;--time:17s;--delay:-11s;--drift:-22px;--turn:-300deg">
+    </div>
+    <a class="game-back" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="game-content">
+      <img class="game-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <h1 class="game-heading scroll-sign">Ranking</h1>
+      <section class="game-panel scroll-sign" aria-label="Classificação de jogadores">
+        <p class="panel-intro">Some pontos verdes ao concluir fases e boas práticas.</p>
+        <div class="rank-tabs" role="tablist" aria-label="Período e grupo do ranking">
+          <button class="rank-tab" type="button" role="tab" aria-selected="true" aria-pressed="true" data-rank-scope="weekly">Semanal</button>
+          <button class="rank-tab" type="button" role="tab" aria-selected="false" aria-pressed="false" data-rank-scope="friends">Amigos</button>
+          <button class="rank-tab" type="button" role="tab" aria-selected="false" aria-pressed="false" data-rank-scope="global">Geral</button>
+        </div>
+        <div class="league-card scroll-sign">
+          <span><strong id="leagueTitle">Liga da Floresta</strong><small id="leaguePeriod">Classificação semanal</small></span>
+          <span class="league-score" id="playerPlace">Sua posição: 4º</span>
+        </div>
+        <ol class="ranking-list" id="rankingList" aria-live="polite"></ol>
+        <p class="demo-note">Nomes e pontuações ilustrativos; o ranking online será conectado depois.</p>
+      </section>
+    </div>
+  </main>
+  <script>
+    const groups = {
+      weekly: {
+        title: "Liga da Floresta", period: "Classificação semanal", me: "Sua posição: 4º",
+        players: [
+          { initials: "FL", name: "FloraLivre", score: 1320 },
+          { initials: "MR", name: "MundoRecicla", score: 1180 },
+          { initials: "GA", name: "GuardiãoAzul", score: 1045 },
+          { initials: "EU", name: "Você", score: 880, you: true },
+          { initials: "LV", name: "LiaVerde", score: 760 }
+        ]
+      },
+      friends: {
+        title: "Seus amigos", period: "Pontos verdes nesta semana", me: "Sua posição: 2º",
+        players: [
+          { initials: "CA", name: "CaioDaMata", score: 940 },
+          { initials: "EU", name: "Você", score: 880, you: true },
+          { initials: "BI", name: "BiaAzul", score: 710 },
+          { initials: "NO", name: "NoahRecicla", score: 540 }
+        ]
+      },
+      global: {
+        title: "Trilha global", period: "Pontuação geral ilustrativa", me: "Sua posição: 5º",
+        players: [
+          { initials: "EC", name: "EcoCampeã", score: 8920 },
+          { initials: "VE", name: "VerdeSempre", score: 8450 },
+          { initials: "AA", name: "ArPuro", score: 7880 },
+          { initials: "PL", name: "PlanetaLimpo", score: 7200 },
+          { initials: "EU", name: "Você", score: 2140, you: true }
+        ]
+      }
+    };
+    const list = document.querySelector("#rankingList");
+    function showGroup(key) {
+      const group = groups[key];
+      document.querySelector("#leagueTitle").textContent = group.title;
+      document.querySelector("#leaguePeriod").textContent = group.period;
+      document.querySelector("#playerPlace").textContent = group.me;
+      list.replaceChildren(...group.players.map((player, index) => {
+        const row = document.createElement("li");
+        row.className = `ranking-row scroll-sign${player.you ? " is-you" : ""}`;
+        const medal = document.createElement("span");
+        medal.className = "rank-medal";
+        medal.textContent = `${index + 1}º`;
+        const avatar = document.createElement("span");
+        avatar.className = "rank-avatar";
+        avatar.textContent = player.initials;
+        const name = document.createElement("span");
+        name.className = "rank-name";
+        name.textContent = player.name;
+        const sub = document.createElement("small");
+        sub.className = "rank-sub";
+        sub.textContent = "XP ambiental";
+        name.append(sub);
+        const score = document.createElement("span");
+        score.className = "rank-points";
+        score.textContent = player.score.toLocaleString("pt-BR");
+        row.append(medal, avatar, name, score);
+        return row;
+      }));
+      window.observeGameSigns?.(list);
+    }
+    document.querySelectorAll("[data-rank-scope]").forEach((tab) => tab.addEventListener("click", () => {
+      document.querySelectorAll("[data-rank-scope]").forEach((item) => {
+        const active = item === tab;
+        item.setAttribute("aria-selected", String(active));
+        item.setAttribute("aria-pressed", String(active));
+      });
+      showGroup(tab.dataset.rankScope);
+    }));
+    showGroup("weekly");
+  </script>
+</body>
+</html>

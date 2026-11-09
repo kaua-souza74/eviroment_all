@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#53b7e8">
+  <title>Menu · Enviroment All</title>
+  <style>
+    :root { color-scheme: light; font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif; color: #70452d; background: #18331d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; background: #18331d; }
+    button, a { font: inherit; }
+    .stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(100%, 430px);
+      min-height: 100svh;
+      margin: 0 auto;
+      overflow: hidden;
+      isolation: isolate;
+      background: #55bce8 url("../assets/screens/menu-background.png") center / cover no-repeat;
+    }
+    .leaf-layer { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
+    .falling-leaf { position: absolute; top: -12%; left: var(--left); width: clamp(17px, 5vw, 25px); height: auto; opacity: 0; animation: leaf-fall var(--duration) linear var(--delay) infinite; }
+    .menu-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 100svh; padding: max(10px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom)); }
+    .brand { display: block; width: clamp(166px, 48vw, 205px); height: clamp(84px, 12svh, 104px); margin-bottom: clamp(0px, .6svh, 6px); object-fit: contain; }
+    .menu-list { display: grid; gap: clamp(10px, 1.8svh, 15px); width: min(100%, 350px); }
+    .menu-action {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      aspect-ratio: 4.7 / 1;
+      min-height: 56px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 0;
+      color: #f9e4b0;
+      text-align: center;
+      font-size: clamp(16px, 4.6vw, 21px);
+      font-weight: 900;
+      letter-spacing: .035em;
+      text-shadow: 0 2px 0 #5a321d, 0 1px 4px #422713;
+      background: url("../assets/ui/menu-plank.png") center / 100% 100% no-repeat;
+      cursor: pointer;
+      transition: filter 140ms ease, transform 140ms ease;
+      animation: plank-entry 620ms cubic-bezier(.16,.82,.23,1.12) both;
+    }
+    .menu-list > .menu-action:nth-child(1) { animation-delay: 0ms; }
+    .menu-list > .menu-action:nth-child(2) { animation-delay: 70ms; }
+    .menu-grid .menu-action:nth-child(1) { animation-delay: 140ms; }
+    .menu-grid .menu-action:nth-child(2) { animation-delay: 190ms; }
+    .menu-grid .menu-action:nth-child(3) { animation-delay: 240ms; }
+    .menu-grid .menu-action:nth-child(4) { animation-delay: 290ms; }
+    .menu-grid .menu-action:nth-child(5) { animation-delay: 340ms; }
+    .menu-grid .menu-action:nth-child(6) { animation-delay: 390ms; }
+    .menu-list > .menu-action:last-child { animation-delay: 440ms; }
+    .menu-action:first-child { color: #fff4cc; }
+    .menu-login { color: #e2ffff; }
+    .menu-action--feature { min-height: 60px; font-size: clamp(18px, 5vw, 23px); }
+    .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 1.7vw, 12px); }
+    .menu-grid .menu-action { aspect-ratio: 2.8 / 1; min-height: 52px; padding: 0 8px; font-size: clamp(13px, 3.8vw, 17px); }
+    .menu-action--exit { min-height: 54px; font-size: clamp(15px, 4.5vw, 19px); }
+    .menu-action:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .menu-action:active { transform: translateY(2px); }
+    .menu-action:focus-visible { outline: 3px solid #fff4a2; outline-offset: 2px; }
+    @keyframes plank-entry { 0% { opacity: 0; transform: translateY(18px) scale(.92); } 72% { opacity: 1; transform: translateY(-3px) scale(1.025); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes leaf-fall { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0); } 12% { opacity: .82; } 86% { opacity: .82; } 100% { opacity: 0; transform: translate3d(var(--drift), 112svh, 0) rotate(var(--turn)); } }
+    dialog { width: min(86vw, 340px); padding: 22px; border: 4px solid #8c512e; border-radius: 24px; color: #70452d; text-align: center; background: #fff0c6; box-shadow: 0 12px 28px #10251d99; }
+    dialog::backdrop { background: #10251d9c; }
+    dialog h2 { margin: 0 0 8px; font-size: 22px; }
+    dialog p { margin: 0 0 16px; font-size: 14px; line-height: 1.45; }
+    .dialog-actions { display: flex; justify-content: center; gap: 10px; }
+    .dialog-button, .dialog-link { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 15px; border: 0; border-radius: 22px; color: white; font-weight: 800; text-decoration: none; background: #168fc7; cursor: pointer; }
+    .dialog-link { background: #72bf35; }
+    @media (max-height: 700px) { .menu-wrap { padding-top: 4px; padding-bottom: 10px; } .brand { height: 68px; margin-bottom: 0; } .menu-list { width: min(86vw, 330px); gap: clamp(8px, 1.4svh, 12px); } .menu-action { min-height: 52px; font-size: clamp(15px, 4.4vw, 19px); } .menu-action--feature { min-height: 54px; } .menu-grid .menu-action { min-height: 48px; font-size: clamp(12px, 3.7vw, 16px); } }
+    @media (max-height: 560px) { .menu-wrap { min-height: 560px; } .menu-list { gap: 8px; } .menu-grid { gap: 6px; } .menu-action--feature, .menu-action--exit { min-height: 48px; } .menu-grid .menu-action { min-height: 44px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } .falling-leaf { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <div class="leaf-layer" aria-hidden="true">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:8%;--duration:12s;--delay:-3s;--drift:38px;--turn:330deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:28%;--duration:15s;--delay:-9s;--drift:-24px;--turn:-300deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:72%;--duration:13s;--delay:-6s;--drift:32px;--turn:260deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:91%;--duration:16s;--delay:-11s;--drift:-30px;--turn:-340deg">
+    </div>
+    <section class="menu-wrap" aria-label="Menu principal">
+      <img class="brand" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <nav class="menu-list" aria-label="Ações do jogo">
+        <button class="menu-action menu-action--feature" type="button" data-action="play">Jogar</button>
+        <button class="menu-action menu-action--feature menu-login" type="button" data-action="login">Entrar / Criar conta</button>
+        <div class="menu-grid" aria-label="Explorar o jogo">
+          <button class="menu-action" type="button" data-action="missions">Missões</button>
+          <button class="menu-action" type="button" data-action="achievements">Conquistas</button>
+          <button class="menu-action" type="button" data-action="options">Opções</button>
+          <button class="menu-action" type="button" data-action="settings">Configurações</button>
+          <button class="menu-action" type="button" data-action="ranking">Ranking</button>
+          <button class="menu-action" type="button" data-action="shop">Loja</button>
+        </div>
+        <button class="menu-action menu-action--exit" type="button" data-action="exit">Sair</button>
+      </nav>
+    </section>
+  </main>
+  <dialog id="menuDialog" aria-labelledby="dialogTitle" aria-describedby="dialogBody">
+    <h2 id="dialogTitle"></h2>
+    <p id="dialogBody"></p>
+    <div class="dialog-actions" id="dialogActions">
+      <button class="dialog-button" type="button" id="closeDialog">Fechar</button>
+    </div>
+  </dialog>
+  <script>
+    const dialog = document.querySelector("#menuDialog");
+    const title = document.querySelector("#dialogTitle");
+    const body = document.querySelector("#dialogBody");
+    const actions = document.querySelector("#dialogActions");
+    const pages = { missions: "missions.html", achievements: "achievements.html", options: "options.html", settings: "settings.html", ranking: "ranking.html", shop: "shop.html" };
+    document.querySelectorAll("[data-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+        if (action === "play") { window.location.href = "victory.html"; return; }
+        if (action === "login") { window.location.href = "login.html"; return; }
+        if (pages[action]) { window.location.href = pages[action]; return; }
+        const [heading, message] = ["Sair", "Este protótipo roda no navegador. Volte à tela de login para percorrer o fluxo novamente."];
+        title.textContent = heading;
+        body.textContent = message;
+        actions.querySelector(".dialog-link")?.remove();
+        if (action === "exit") {
+          const link = document.createElement("a");
+          link.className = "dialog-link";
+          link.href = "login.html";
+          link.textContent = "Voltar ao login";
+          actions.append(link);
+        }
+        dialog.showModal();
+      });
+    });
+    document.querySelector("#closeDialog").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+  </script>
+</body>
+</html>

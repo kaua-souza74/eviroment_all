@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#55bce8">
+  <title>Opções da partida · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <script src="game-pages.js"></script>
+</head>
+<body>
+  <main class="game-stage">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:8%;--time:13s;--delay:-5s;--drift:28px;--turn:290deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:88%;--time:16s;--delay:-9s;--drift:-24px;--turn:-320deg">
+    </div>
+    <a class="game-back" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="game-content">
+      <img class="game-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <h1 class="game-heading scroll-sign">Opções da partida</h1>
+      <section class="game-panel scroll-sign" aria-label="Escolhas para a próxima partida">
+        <p class="panel-intro">Escolha como quer jogar desta vez. Essas opções valem só para a próxima partida.</p>
+
+        <h2 class="section-title scroll-sign">Modo de jogo</h2>
+        <div class="choice-grid" role="group" aria-label="Modo de jogo">
+          <button class="choice-card" type="button" data-choice="mode" data-value="aventura" aria-pressed="true">
+            <strong>Aventura</strong><small>Avance pela trilha e desbloqueie novas fases.</small>
+          </button>
+          <button class="choice-card" type="button" data-choice="mode" data-value="desafio" aria-pressed="false">
+            <strong>Desafio rápido</strong><small>Uma fase curta para testar seus conhecimentos.</small>
+          </button>
+        </div>
+
+        <h2 class="section-title scroll-sign">Tema ambiental</h2>
+        <div class="chip-row" role="group" aria-label="Tema da partida">
+          <button class="choice-chip" type="button" data-choice="topic" data-value="reciclagem" aria-pressed="true">Reciclagem</button>
+          <button class="choice-chip" type="button" data-choice="topic" data-value="poluicao" aria-pressed="false">Poluição</button>
+          <button class="choice-chip" type="button" data-choice="topic" data-value="tres-rs" aria-pressed="false">Os 3 Rs</button>
+          <button class="choice-chip" type="button" data-choice="topic" data-value="plantio" aria-pressed="false">Plantio</button>
+          <button class="choice-chip" type="button" data-choice="topic" data-value="desmatamento" aria-pressed="false">Desmatamento</button>
+        </div>
+
+        <h2 class="section-title scroll-sign">Nível de desafio</h2>
+        <div class="choice-grid" role="group" aria-label="Nível de desafio">
+          <button class="choice-card" type="button" data-choice="difficulty" data-value="trilha" aria-pressed="true"><strong>Trilha</strong><small>Com dicas para aprender.</small></button>
+          <button class="choice-card" type="button" data-choice="difficulty" data-value="guardiao" aria-pressed="false"><strong>Guardião</strong><small>Menos dicas, mais desafio.</small></button>
+        </div>
+
+        <label class="setting-row" for="hintsToggle">
+          <span><span class="setting-label">Mostrar dicas na fase</span><span class="setting-help">Ajuda educativa antes de cada resposta.</span></span>
+          <input class="game-switch" id="hintsToggle" type="checkbox" checked>
+        </label>
+        <div class="game-actions">
+          <button class="game-button game-button--blue" type="button" id="saveOptions">Salvar escolhas</button>
+          <button class="game-button game-button--green" type="button" id="startMatch">Começar</button>
+        </div>
+        <p class="status-message" id="optionsStatus" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+  <script>
+    const selectionKey = "enviromentAll.matchOptions";
+    const status = document.querySelector("#optionsStatus");
+    const saved = JSON.parse(localStorage.getItem(selectionKey) || "null");
+    const requestedTopic = new URLSearchParams(window.location.search).get("tema");
+    const requestedTopicButton = [...document.querySelectorAll('[data-choice="topic"]')].find((button) => button.dataset.value === requestedTopic);
+    if (requestedTopicButton) {
+      localStorage.setItem(selectionKey, JSON.stringify({ ...(saved || {}), topic: requestedTopic }));
+    }
+    const initial = JSON.parse(localStorage.getItem(selectionKey) || "null");
+    if (initial) {
+      document.querySelectorAll("[data-choice]").forEach((button) => {
+        const group = button.dataset.choice;
+        button.setAttribute("aria-pressed", String(initial[group] === button.dataset.value));
+      });
+      document.querySelector("#hintsToggle").checked = initial.hints !== false;
+    }
+    document.querySelectorAll("[data-choice]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const group = button.dataset.choice;
+        if (group === "topic") {
+          document.querySelectorAll('[data-choice="topic"]').forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        } else {
+          document.querySelectorAll(`[data-choice="${group}"]`).forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        }
+      });
+    });
+    function saveSelection() {
+      const selection = {};
+      document.querySelectorAll('[data-choice][aria-pressed="true"]').forEach((button) => { selection[button.dataset.choice] = button.dataset.value; });
+      selection.hints = document.querySelector("#hintsToggle").checked;
+      localStorage.setItem(selectionKey, JSON.stringify(selection));
+      return selection;
+    }
+    document.querySelector("#saveOptions").addEventListener("click", () => { saveSelection(); status.textContent = "Escolhas salvas para a próxima partida."; });
+    document.querySelector("#startMatch").addEventListener("click", () => { saveSelection(); window.location.href = "victory.html"; });
+  </script>
+</body>
+</html>

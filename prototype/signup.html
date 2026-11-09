@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#73c9ee">
+  <title>Criar conta · Enviroment All</title>
+  <style>
+    :root { color-scheme: light; font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif; color: #70452d; background: #18331d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; background: #18331d; }
+    button, input, a { font: inherit; }
+    .stage { position: relative; isolation: isolate; display: grid; place-items: center; width: min(100%, 430px); min-height: 100svh; margin: 0 auto; overflow: hidden; background: #78c9e9 url("../assets/screens/login-background.png") center / cover no-repeat; }
+    .leaf-layer { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
+    .falling-leaf { position: absolute; top: -12%; left: var(--left); width: clamp(16px, 4.7vw, 23px); height: auto; opacity: 0; animation: leaf-fall var(--duration) linear var(--delay) infinite; }
+    .back-button { position: absolute; z-index: 3; top: max(12px, env(safe-area-inset-top)); left: 12px; display: inline-flex; align-items: center; gap: 5px; min-height: 42px; padding: 0 14px 2px 10px; border: 2px solid #fff3c7; border-radius: 24px; color: #fff; background: linear-gradient(#45c7ed, #0877c9); box-shadow: 0 3px 0 #07538e, 0 5px 10px #17476a66; font-size: 13px; font-weight: 900; text-decoration: none; text-shadow: 0 1px 2px #17476a; transition: transform 140ms ease, filter 140ms ease; }
+    .back-button span:first-child { font-size: 23px; line-height: .8; }
+    .back-button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .back-button:active { transform: translateY(2px); }
+    .back-button:focus-visible { outline: 3px solid #fff4a2; outline-offset: 3px; }
+    .signup-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: clamp(2px, 1svh, 8px); width: 100%; padding: max(8px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }
+    .brand { display: block; width: clamp(150px, 42vw, 184px); height: clamp(72px, 11svh, 88px); object-fit: contain; }
+    .signup-card { position: relative; width: min(96vw, 380px); aspect-ratio: 1122 / 1402; }
+    .card-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+    h1 { position: absolute; top: 9.2%; left: 13%; right: 13%; margin: 0; color: #fff8e8; text-align: center; font-size: clamp(19px, 5.4vw, 26px); line-height: 1.1; font-weight: 1000; text-shadow: 0 2px 0 #bd5c1e, 0 3px 3px #793716; }
+    .signup-form { position: absolute; inset: 24% 12% 8%; display: flex; flex-direction: column; gap: clamp(0px, .2svh, 2px); }
+    .intro { margin: 0 0 2px; color: #d94d82; text-align: center; font-size: clamp(15px, 4.1vw, 18px); line-height: 1.15; font-weight: 900; white-space: nowrap; }
+    .field { display: grid; gap: 2px; color: #176a91; font-size: 12px; line-height: 1.1; font-weight: 900; }
+    .field input { width: 100%; min-height: 34px; padding: 0 12px; border: 2px solid #9edee5; border-radius: 22px; outline: 0; color: #24566f; background: #d9f7f7; box-shadow: inset 0 1px 2px #93d5de; font-size: 14px; font-weight: 700; }
+    .field input::placeholder { color: #577888; opacity: 1; }
+    .field.password input { border-color: #f0d9f2; background: #f4e5f6; box-shadow: inset 0 1px 2px #e5c5e8; }
+    .field input:focus-visible { outline: 3px solid #e9a14a; outline-offset: 2px; }
+    .feedback { min-height: 12px; margin: 0; color: #a83858; text-align: center; font-size: 11px; font-weight: 900; }
+    .actions { display: flex; justify-content: center; gap: 8px; align-items: center; margin-top: 1px; }
+    .image-button { position: relative; isolation: isolate; overflow: hidden; display: grid; place-items: center; flex: 1; height: 58px; min-height: 58px; padding: 0 8px; border: 3px solid #85431d; border-radius: 999px; color: #fff; text-decoration: none; text-align: center; font-size: 14px; font-weight: 1000; text-shadow: 0 2px 2px #345c30; box-shadow: 0 3px 0 #693814, inset 0 2px 2px #ffffffa8, inset 0 -3px 4px #0003; transform-origin: center; animation: button-idle 2.5s ease-in-out infinite; cursor: pointer; }
+    .image-button::before { content: ""; position: absolute; z-index: 0; top: 5px; left: 10%; width: 30%; height: 7px; border-radius: 99px; background: #ffffffb8; pointer-events: none; }
+    .image-button > span { position: relative; z-index: 1; }
+    .image-button:hover { animation-play-state: paused; filter: brightness(1.08); transform: translateY(-1px) scale(1.025); }
+    .image-button:focus-visible { outline: 3px solid #fff3a8; outline-offset: 2px; }
+    .actions .image-button { flex: 0 1 94%; width: 94%; height: 54px; min-height: 54px; }
+    .button-green { background: linear-gradient(180deg, #b6ff27 0%, #75df08 44%, #34ad00 100%); }
+    .button-blue { background: linear-gradient(180deg, #59e9ff 0%, #18bcf3 48%, #087fbe 100%); }
+    .account-link { margin: 6px 0 0; color: #216784; text-align: center; font-size: 12px; line-height: 1.2; font-weight: 900; }
+    .account-link a { color: #286c9b; text-decoration-thickness: 2px; text-underline-offset: 2px; }
+    @keyframes button-idle { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.025); } }
+    @keyframes leaf-fall { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0); } 12% { opacity: .72; } 86% { opacity: .72; } 100% { opacity: 0; transform: translate3d(var(--drift), 112svh, 0) rotate(var(--turn)); } }
+    @media (max-height: 680px) { .signup-wrap { gap: 0; padding-top: 3px; padding-bottom: 5px; } .brand { height: 72px; } .signup-card { width: min(92vw, 360px); } .signup-form { inset: 24% 12% 7%; gap: 1px; } .field input { min-height: 31px; font-size: 13px; } .actions .image-button { height: 52px; min-height: 52px; } }
+    @media (max-width: 340px) { .field { font-size: 11px; } .field input { min-height: 31px; padding-inline: 10px; font-size: 12px; } .signup-form { inset-inline: 11%; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } .falling-leaf { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-labelledby="signupTitle">
+    <a class="back-button" href="login.html" aria-label="Voltar para o login"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="leaf-layer" aria-hidden="true">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:7%;--duration:14s;--delay:-7s;--drift:28px;--turn:320deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:89%;--duration:12s;--delay:-3s;--drift:-22px;--turn:-300deg">
+    </div>
+    <section class="signup-wrap">
+      <img class="brand" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <div class="signup-card">
+        <img class="card-art" src="../assets/ui/login-card.png" alt="">
+        <h1 id="signupTitle">Criar conta</h1>
+        <form class="signup-form" id="signupForm" novalidate>
+          <p class="intro">Entre para a aventura!</p>
+          <label class="field" for="fullName">Nome
+            <input id="fullName" name="name" type="text" autocomplete="name" placeholder="Seu nome" required>
+          </label>
+          <label class="field" for="email">E-mail
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required>
+          </label>
+          <label class="field password" for="newPassword">Senha
+            <input id="newPassword" name="password" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres" required minlength="6">
+          </label>
+          <label class="field password" for="confirmPassword">Confirmar senha
+            <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Digite a senha novamente" required minlength="6">
+          </label>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          <div class="actions">
+            <button class="image-button button-green" id="createAccount" type="submit"><span>Criar conta</span></button>
+          </div>
+          <p class="account-link">Já tem conta? <a href="login.html">Entrar</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector("#signupForm");
+    const feedback = document.querySelector("#feedback");
+    const submit = document.querySelector("#createAccount");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = document.querySelector("#fullName");
+      const email = document.querySelector("#email");
+      const password = document.querySelector("#newPassword");
+      const confirmPassword = document.querySelector("#confirmPassword");
+      if (!name.value.trim() || !email.validity.valid || !password.value || !confirmPassword.value) {
+        feedback.textContent = "Confira os campos obrigatórios.";
+        const firstInvalid = [name, email, password, confirmPassword].find((field) => !field.value.trim() || !field.validity.valid);
+        firstInvalid?.focus();
+        return;
+      }
+      if (password.value.length < 6) { feedback.textContent = "A senha precisa ter ao menos 6 caracteres."; password.focus(); return; }
+      if (password.value !== confirmPassword.value) { feedback.textContent = "As senhas não coincidem."; confirmPassword.focus(); return; }
+      submit.disabled = true;
+      submit.querySelector("span").textContent = "Conta criada!";
+      feedback.textContent = "Cadastro de demonstração concluído.";
+      window.setTimeout(() => { window.location.href = "menu.html"; }, 650);
+    });
+  </script>
+</body>
+</html>

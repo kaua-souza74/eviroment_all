@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#73c9ee">
+  <title>Entrar · Enviroment All</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+      color: #70452d;
+      background: #18331d;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; background: #18331d; }
+    button, input, a { font: inherit; }
+    .stage {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      place-items: center;
+      width: min(100%, 430px);
+      min-height: 100svh;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #78c9e9 url("../assets/screens/login-background.png") center / cover no-repeat;
+    }
+    .leaf-layer { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
+    .falling-leaf { position: absolute; top: -12%; left: var(--left); width: clamp(16px, 4.7vw, 23px); height: auto; opacity: 0; animation: leaf-fall var(--duration) linear var(--delay) infinite; }
+    .back-button { position: absolute; z-index: 3; top: max(12px, env(safe-area-inset-top)); left: 12px; display: inline-flex; align-items: center; gap: 5px; min-height: 42px; padding: 0 14px 2px 10px; border: 2px solid #fff3c7; border-radius: 24px; color: #fff; background: linear-gradient(#45c7ed, #0877c9); box-shadow: 0 3px 0 #07538e, 0 5px 10px #17476a66; font-size: 13px; font-weight: 900; text-decoration: none; text-shadow: 0 1px 2px #17476a; transition: transform 140ms ease, filter 140ms ease; }
+    .back-button span:first-child { font-size: 23px; line-height: .8; }
+    .back-button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .back-button:active { transform: translateY(2px); }
+    .back-button:focus-visible { outline: 3px solid #fff4a2; outline-offset: 3px; }
+    .login-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2px, 1.2svh, 10px);
+      width: 100%;
+      padding: max(10px, env(safe-area-inset-top)) 12px max(14px, env(safe-area-inset-bottom));
+    }
+    .brand { display: block; width: clamp(150px, 42vw, 190px); height: 86px; object-fit: contain; }
+    .login-card { position: relative; width: min(88vw, 350px); aspect-ratio: 1122 / 1402; }
+    .card-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .screen-title {
+      position: absolute;
+      top: 9.2%;
+      left: 18%;
+      right: 18%;
+      margin: 0;
+      color: #fff8e8;
+      text-align: center;
+      font-size: clamp(21px, 6vw, 28px);
+      line-height: 1.1;
+      font-weight: 900;
+      text-shadow: 0 2px 0 #bd5c1e, 0 3px 3px #793716;
+    }
+    .login-form {
+      position: absolute;
+      inset: 24% 12% 12%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+    }
+    .welcome { margin: 0 0 1px; color: #df5b88; text-align: center; font-size: clamp(17px, 5vw, 21px); font-weight: 900; }
+    .field { display: grid; gap: 2px; color: #176a91; font-size: 12px; font-weight: 900; }
+    .field input {
+      width: 100%;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 2px solid #b8edf1;
+      border-radius: 22px;
+      outline: 0;
+      color: #24566f;
+      background: #d9f7f7;
+      box-shadow: inset 0 1px 2px #93d5de;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field input::placeholder { color: #577888; opacity: 1; }
+    .field.password input { border-color: #f0d9f2; background: #f4e5f6; box-shadow: inset 0 1px 2px #e5c5e8; }
+    .field input:focus-visible { outline: 3px solid #e9a14a; outline-offset: 2px; }
+    .remember { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 24px; color: #317395; font-size: 13px; font-weight: 800; }
+    .remember input { width: 20px; height: 20px; margin: 0; accent-color: #288fd1; }
+    .feedback { min-height: 18px; margin: 0; color: #b24562; text-align: center; font-size: 11px; font-weight: 800; }
+    .actions { display: flex; gap: 8px; width: 100%; margin-top: 0; }
+    .image-button {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 52px;
+      padding: 0 8px;
+      border: 3px solid #85431d;
+      border-radius: 999px;
+      color: #fff;
+      font-size: clamp(12px, 3.4vw, 15px);
+      font-weight: 900;
+      text-shadow: 0 2px 2px #295a2b;
+      text-decoration: none;
+      box-shadow: 0 3px 0 #693814, inset 0 2px 2px #ffffffa8, inset 0 -3px 4px #0003;
+      cursor: pointer;
+      transition: filter 120ms ease, transform 120ms ease;
+      transform-origin: center;
+      animation: button-idle 2.5s ease-in-out infinite;
+    }
+    .image-button::before { content: ""; position: absolute; z-index: 0; top: 5px; left: 10%; width: 30%; height: 7px; border-radius: 99px; background: #ffffffb8; pointer-events: none; }
+    .image-button > span { position: relative; z-index: 1; }
+    .actions .image-button:nth-child(2) { animation-delay: -1.25s; }
+    .image-button:hover { animation-play-state: paused; filter: brightness(1.08); transform: translateY(-1px) scale(1.025); }
+    .image-button:active { transform: translateY(2px); }
+    .image-button:focus-visible { outline: 3px solid #fff3a8; outline-offset: 2px; }
+    .image-button:disabled { filter: grayscale(.45); cursor: wait; }
+    .button-blue { background: linear-gradient(180deg, #59e9ff 0%, #18bcf3 48%, #087fbe 100%); }
+    .button-green { background: linear-gradient(180deg, #b6ff27 0%, #75df08 44%, #34ad00 100%); }
+    @keyframes button-idle { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.025); } }
+    @keyframes leaf-fall { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0); } 12% { opacity: .72; } 86% { opacity: .72; } 100% { opacity: 0; transform: translate3d(var(--drift), 112svh, 0) rotate(var(--turn)); } }
+    @media (max-height: 680px) {
+      .login-wrap { gap: 0; padding-top: 4px; padding-bottom: 6px; }
+      .brand { height: 64px; }
+      .login-card { width: min(81vw, 310px); }
+      .login-form { gap: 2px; }
+      .field input { min-height: 34px; font-size: 13px; }
+      .image-button { min-height: 48px; }
+    }
+    @media (max-width: 340px) { .login-form { inset-inline: 11%; gap: 4px; } .field { font-size: 11px; } .field input { min-height: 34px; padding-inline: 10px; font-size: 12px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } .falling-leaf { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-labelledby="screen-title">
+    <a class="back-button" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="leaf-layer" aria-hidden="true">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:9%;--duration:13s;--delay:-5s;--drift:28px;--turn:320deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:84%;--duration:15s;--delay:-11s;--drift:-24px;--turn:-300deg">
+      <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:60%;--duration:17s;--delay:-8s;--drift:20px;--turn:280deg">
+    </div>
+    <section class="login-wrap">
+      <img class="brand" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <div class="login-card">
+        <img class="card-art" src="../assets/ui/login-card.png" alt="">
+        <h1 class="screen-title" id="screen-title">Entrar</h1>
+        <form class="login-form" id="loginForm" novalidate>
+          <p class="welcome">Boas-vindas!</p>
+          <label class="field" for="username">Usuário
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Seu usuário" required>
+          </label>
+          <label class="field password" for="password">Senha
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Sua senha" required>
+          </label>
+          <label class="remember"><input type="checkbox" name="remember" checked> Manter conectado</label>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          <div class="actions">
+            <a class="image-button button-blue" href="signup.html"><span>Criar conta</span></a>
+            <button class="image-button button-green" type="submit" id="submit"><span>Entrar</span></button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector("#loginForm");
+    const feedback = document.querySelector("#feedback");
+    const submit = document.querySelector("#submit");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const username = document.querySelector("#username");
+      const password = document.querySelector("#password");
+      if (!username.value.trim() || !password.value) {
+        feedback.textContent = "Preencha usuário e senha para continuar.";
+        (username.value.trim() ? password : username).focus();
+        return;
+      }
+      submit.disabled = true;
+      submit.querySelector("span").textContent = "Entrando…";
+      feedback.textContent = "Acesso de demonstração confirmado.";
+      window.setTimeout(() => { window.location.href = "menu.html"; }, 450);
+    });
+  </script>
+</body>
+</html>

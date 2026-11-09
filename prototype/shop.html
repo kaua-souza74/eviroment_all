@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#55bce8">
+  <title>Loja da floresta · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <script src="game-pages.js"></script>
+</head>
+<body>
+  <main class="game-stage">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:8%;--time:15s;--delay:-4s;--drift:26px;--turn:310deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:90%;--time:17s;--delay:-9s;--drift:-25px;--turn:-315deg">
+    </div>
+    <a class="game-back" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="game-content">
+      <img class="game-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <h1 class="game-heading scroll-sign">Loja da floresta</h1>
+      <section class="game-panel scroll-sign" aria-label="Loja de itens do jogo">
+        <p class="panel-intro">Prepare seu guardião para novas trilhas. Compre itens usando as recompensas da aventura.</p>
+        <div class="wallet-card scroll-sign" aria-label="Sua carteira">
+          <img src="../assets/ui/reward-icons.png" alt="Moeda de folha e cristal azul">
+          <div class="wallet-values"><span>🍃 <b id="coinBalance">500</b> moedas</span><span>💎 <b id="crystalBalance">50</b> cristais</span></div>
+        </div>
+        <div class="shop-filters" role="tablist" aria-label="Categorias da loja">
+          <button class="shop-filter" type="button" role="tab" aria-selected="true" aria-pressed="true" data-filter="all">Tudo</button>
+          <button class="shop-filter" type="button" role="tab" aria-selected="false" aria-pressed="false" data-filter="adventure">Aventura</button>
+          <button class="shop-filter" type="button" role="tab" aria-selected="false" aria-pressed="false" data-filter="planting">Plantio</button>
+        </div>
+        <div class="shop-grid">
+          <article class="shop-card scroll-sign" data-item="bottle" data-category="adventure" data-currency="coins" data-price="120">
+            <span class="shop-art sprite-1" role="img" aria-label="Garrafa reutilizável"></span><h2>Garrafa reutilizável</h2><p>Leve água e evite descartáveis na trilha.</p><div class="shop-price">🍃 <b>120</b> moedas</div><button class="game-button game-button--green" type="button" data-buy>Comprar</button>
+          </article>
+          <article class="shop-card scroll-sign" data-item="seeds" data-category="planting" data-currency="coins" data-price="90">
+            <span class="shop-art sprite-2" role="img" aria-label="Pacote de sementes"></span><h2>Kit de sementes</h2><p>Sementes para cultivar um cantinho verde.</p><div class="shop-price">🍃 <b>90</b> moedas</div><button class="game-button game-button--green" type="button" data-buy>Comprar</button>
+          </article>
+          <article class="shop-card scroll-sign" data-item="backpack" data-category="adventure" data-currency="coins" data-price="180">
+            <span class="shop-art sprite-3" role="img" aria-label="Mochila de explorador"></span><h2>Mochila exploradora</h2><p>Guarde mapas, sementes e descobertas.</p><div class="shop-price">🍃 <b>180</b> moedas</div><button class="game-button game-button--green" type="button" data-buy>Comprar</button>
+          </article>
+          <article class="shop-card scroll-sign" data-item="gloves" data-category="planting" data-currency="coins" data-price="110">
+            <span class="shop-art sprite-4" role="img" aria-label="Luvas e ferramentas de plantio"></span><h2>Luvas de plantio</h2><p>Cuide das mudas com segurança.</p><div class="shop-price">🍃 <b>110</b> moedas</div><button class="game-button game-button--green" type="button" data-buy>Comprar</button>
+          </article>
+          <article class="shop-card scroll-sign" data-item="boots" data-category="adventure" data-currency="coins" data-price="160">
+            <span class="shop-art sprite-5" role="img" aria-label="Botas de trilha"></span><h2>Botas de trilha</h2><p>Prontas para explorar novos biomas.</p><div class="shop-price">🍃 <b>160</b> moedas</div><button class="game-button game-button--green" type="button" data-buy>Comprar</button>
+          </article>
+          <article class="shop-card scroll-sign" data-item="hat" data-category="adventure" data-currency="crystals" data-price="12">
+            <span class="shop-art sprite-6" role="img" aria-label="Chapéu de guardião da floresta"></span><h2>Chapéu guardião</h2><p>Um visual especial para defender a mata.</p><div class="shop-price">💎 <b>12</b> cristais</div><button class="game-button game-button--blue" type="button" data-buy>Comprar</button>
+          </article>
+        </div>
+        <p class="status-message" id="shopStatus" role="status" aria-live="polite"></p>
+        <p class="shop-footer">Moedas, cristais e compras ficam salvos apenas neste navegador de demonstração.</p>
+      </section>
+    </div>
+  </main>
+  <script>
+    const walletKey = "enviromentAll.wallet";
+    const initialWallet = { coins: 500, crystals: 50, owned: [] };
+    let wallet = { ...initialWallet, ...(JSON.parse(localStorage.getItem(walletKey) || "null") || {}) };
+    wallet.owned = Array.isArray(wallet.owned) ? wallet.owned : [];
+    const status = document.querySelector("#shopStatus");
+    const cards = [...document.querySelectorAll(".shop-card")];
+    function renderWallet(message = "") {
+      document.querySelector("#coinBalance").textContent = wallet.coins.toLocaleString("pt-BR");
+      document.querySelector("#crystalBalance").textContent = wallet.crystals.toLocaleString("pt-BR");
+      cards.forEach((card) => {
+        const owned = wallet.owned.includes(card.dataset.item);
+        card.classList.toggle("is-owned", owned);
+        const button = card.querySelector("[data-buy]");
+        button.disabled = owned;
+        button.textContent = owned ? "Adquirido" : "Comprar";
+      });
+      localStorage.setItem(walletKey, JSON.stringify(wallet));
+      status.textContent = message;
+      status.classList.remove("is-error");
+    }
+    document.querySelectorAll("[data-filter]").forEach((tab) => tab.addEventListener("click", () => {
+      document.querySelectorAll("[data-filter]").forEach((item) => {
+        const active = item === tab;
+        item.setAttribute("aria-selected", String(active));
+        item.setAttribute("aria-pressed", String(active));
+      });
+      cards.forEach((card) => { card.hidden = tab.dataset.filter !== "all" && card.dataset.category !== tab.dataset.filter; });
+      window.observeGameSigns?.(document.querySelector(".shop-grid"));
+    }));
+    cards.forEach((card) => card.querySelector("[data-buy]").addEventListener("click", () => {
+      const item = card.dataset.item;
+      const currency = card.dataset.currency;
+      const price = Number(card.dataset.price);
+      if (wallet.owned.includes(item)) return;
+      if (wallet[currency] < price) {
+        status.textContent = "Ainda faltam recompensas para este item. Continue sua aventura!";
+        status.classList.add("is-error");
+        return;
+      }
+      wallet[currency] -= price;
+      wallet.owned.push(item);
+      renderWallet("Item adicionado à sua mochila!");
+    }));
+    renderWallet();
+  </script>
+</body>
+</html>

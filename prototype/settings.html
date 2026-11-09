@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#55bce8">
+  <title>Configurações · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <script src="game-pages.js"></script>
+</head>
+<body>
+  <main class="game-stage">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:7%;--time:14s;--delay:-6s;--drift:26px;--turn:310deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:91%;--time:16s;--delay:-10s;--drift:-22px;--turn:-300deg">
+    </div>
+    <a class="game-back" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="game-content">
+      <img class="game-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <h1 class="game-heading scroll-sign">Configurações</h1>
+      <section class="game-panel scroll-sign" aria-label="Preferências permanentes do jogo">
+        <p class="panel-intro">Ajuste suas preferências. Elas continuam valendo nas próximas partidas.</p>
+
+        <h2 class="section-title scroll-sign">Áudio</h2>
+        <label class="setting-row" for="soundOn">
+          <span><span class="setting-label">Som do jogo</span><span class="setting-help">Efeitos dos botões e das fases.</span></span>
+          <span class="setting-control"><span class="setting-state" id="soundState">Ligado</span><input class="game-switch" id="soundOn" type="checkbox" checked></span>
+        </label>
+        <label class="setting-row" for="musicOn">
+          <span><span class="setting-label">Música</span><span class="setting-help">Trilha sonora durante a aventura.</span></span>
+          <span class="setting-control"><span class="setting-state" id="musicState">Ligada</span><input class="game-switch" id="musicOn" type="checkbox" checked></span>
+        </label>
+        <div class="range-row">
+          <label for="effectsVolume">Volume dos efeitos</label><output id="effectsValue" for="effectsVolume">75%</output>
+          <input id="effectsVolume" type="range" min="0" max="100" step="5" value="75">
+        </div>
+
+        <hr class="soft-divider">
+        <h2 class="section-title scroll-sign">Acessibilidade</h2>
+        <label class="setting-row" for="reduceMotion">
+          <span><span class="setting-label">Reduzir animações</span><span class="setting-help">Diminui folhas e movimentos de interface.</span></span>
+          <span class="setting-control"><span class="setting-state" id="motionState">Desligado</span><input class="game-switch" id="reduceMotion" type="checkbox"></span>
+        </label>
+        <label class="setting-row" for="largeText">
+          <span><span class="setting-label">Texto ampliado</span><span class="setting-help">Aumenta os textos dentro das fases.</span></span>
+          <span class="setting-control"><span class="setting-state" id="textState">Desligado</span><input class="game-switch" id="largeText" type="checkbox"></span>
+        </label>
+
+        <hr class="soft-divider">
+        <h2 class="section-title scroll-sign">Idioma</h2>
+        <label class="setting-row" for="language">
+          <span><span class="setting-label">Idioma</span><span class="setting-help">Idioma dos menus e das instruções.</span></span>
+          <select class="language-select" id="language" aria-label="Idioma"><option value="pt-BR">Português</option><option value="en">English</option><option value="es">Español</option></select>
+        </label>
+        <div class="game-actions">
+          <button class="game-button game-button--green" type="button" id="saveSettings">Salvar</button>
+          <button class="game-button game-button--blue" type="button" id="resetSettings">Padrão</button>
+        </div>
+        <p class="status-message" id="settingsStatus" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+  <script>
+    const settingsKey = "enviromentAll.settings";
+    const defaults = { soundOn: true, musicOn: true, effectsVolume: 75, reduceMotion: false, largeText: false, language: "pt-BR" };
+    const status = document.querySelector("#settingsStatus");
+    const stateLabels = { soundOn: "soundState", musicOn: "musicState", reduceMotion: "motionState", largeText: "textState" };
+    const stateWords = { soundOn: ["Desligado", "Ligado"], musicOn: ["Desligada", "Ligada"], reduceMotion: ["Desligado", "Ligado"], largeText: ["Desligado", "Ligado"] };
+    const controls = ["soundOn", "musicOn", "effectsVolume", "reduceMotion", "largeText", "language"];
+    function renderSettings(values) {
+      controls.forEach((id) => {
+        const control = document.getElementById(id);
+        if (id === "effectsVolume") control.value = values[id];
+        else control.type === "checkbox" ? control.checked = values[id] : control.value = values[id];
+      });
+      document.querySelector("#effectsValue").textContent = `${values.effectsVolume}%`;
+      Object.entries(stateLabels).forEach(([id, labelId]) => {
+        const on = document.getElementById(id).checked;
+        document.getElementById(labelId).textContent = stateWords[id][Number(on)];
+      });
+      document.documentElement.classList.toggle("app-reduced-motion", values.reduceMotion === true);
+      document.documentElement.classList.toggle("app-large-text", values.largeText === true);
+    }
+    const stored = JSON.parse(localStorage.getItem(settingsKey) || "null");
+    renderSettings({ ...defaults, ...(stored || {}) });
+    document.querySelector("#effectsVolume").addEventListener("input", (event) => { document.querySelector("#effectsValue").textContent = `${event.target.value}%`; });
+    Object.keys(stateLabels).forEach((id) => document.getElementById(id).addEventListener("change", () => {
+      const on = document.getElementById(id).checked;
+      document.getElementById(stateLabels[id]).textContent = stateWords[id][Number(on)];
+      if (id === "reduceMotion") document.documentElement.classList.toggle("app-reduced-motion", on);
+      if (id === "largeText") document.documentElement.classList.toggle("app-large-text", on);
+    }));
+    function saveSettings(values) {
+      localStorage.setItem(settingsKey, JSON.stringify(values));
+      status.textContent = "Preferências salvas.";
+    }
+    document.querySelector("#saveSettings").addEventListener("click", () => {
+      const values = Object.fromEntries(controls.map((id) => [id, id === "effectsVolume" ? Number(document.getElementById(id).value) : (document.getElementById(id).type === "checkbox" ? document.getElementById(id).checked : document.getElementById(id).value)]));
+      saveSettings(values);
+    });
+    document.querySelector("#resetSettings").addEventListener("click", () => { renderSettings(defaults); saveSettings(defaults); });
+  </script>
+</body>
+</html>
