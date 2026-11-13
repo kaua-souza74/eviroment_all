@@ -7,6 +7,7 @@
   <title>Missões · Enviroment All</title>
   <link rel="stylesheet" href="game-pages.css">
   <script src="game-pages.js"></script>
+  <script src="game-audio.js"></script>
 </head>
 <body>
   <main class="game-stage">
@@ -22,30 +23,43 @@
         <p class="panel-intro">Cada trilha ensina uma atitude que ajuda a cuidar do planeta. Escolha um tema e parta para a aventura!</p>
         <h2 class="section-title scroll-sign">Escolha sua próxima missão</h2>
         <div class="mission-grid">
-          <article class="mission-card scroll-sign">
+          <article class="mission-card scroll-sign" data-mission-theme="reciclagem">
             <span class="mission-badge sprite-1" role="img" aria-label="Símbolo da reciclagem"></span>
-            <div class="mission-copy"><span class="mission-tag">Resíduos</span><h2>Reciclagem</h2><p>Descubra como separar materiais e dar uma nova vida aos resíduos.</p><progress class="mission-progress" value="2" max="5" aria-label="2 de 5 etapas concluídas"></progress><div class="mission-meta"><small>2/5 etapas · +80 folhas</small><a class="game-button game-button--green" href="options.html?tema=reciclagem">Explorar</a></div></div>
+            <div class="mission-copy"><span class="mission-tag">Resíduos</span><h2>Reciclagem</h2><p>Descubra como separar materiais e dar uma nova vida aos resíduos.</p><progress class="mission-progress" value="0" max="3" aria-label="0 de 3 fases concluídas"></progress><div class="mission-meta"><small data-mission-count>0/3 fases · recompensas na trilha</small><a class="game-button game-button--green" href="phases.html#theme-reciclagem">Explorar</a></div></div>
           </article>
-          <article class="mission-card scroll-sign">
+          <article class="mission-card scroll-sign" data-mission-theme="poluicao">
             <span class="mission-badge sprite-2" role="img" aria-label="Nuvem e folha representando ar limpo"></span>
-            <div class="mission-copy"><span class="mission-tag">Ar e água</span><h2>Poluição</h2><p>Conheça fontes de poluição e escolhas que deixam o ambiente mais limpo.</p><progress class="mission-progress" value="0" max="5" aria-label="Missão ainda não iniciada"></progress><div class="mission-meta"><small>Nova · +100 folhas</small><a class="game-button game-button--green" href="options.html?tema=poluicao">Explorar</a></div></div>
+            <div class="mission-copy"><span class="mission-tag">Ar e água</span><h2>Poluição</h2><p>Conheça fontes de poluição e escolhas que deixam o ambiente mais limpo.</p><progress class="mission-progress" value="0" max="3" aria-label="0 de 3 fases concluídas"></progress><div class="mission-meta"><small data-mission-count>0/3 fases · recompensas na trilha</small><a class="game-button game-button--green" href="phases.html#theme-poluicao">Explorar</a></div></div>
           </article>
-          <article class="mission-card scroll-sign">
+          <article class="mission-card scroll-sign" data-mission-theme="tres-rs">
             <span class="mission-badge sprite-3" role="img" aria-label="Emblema dos 3 Rs"></span>
-            <div class="mission-copy"><span class="mission-tag">Hábitos</span><h2>Os 3 Rs</h2><p>Pratique reduzir, reutilizar e reciclar antes de descartar.</p><progress class="mission-progress" value="0" max="5" aria-label="Missão ainda não iniciada"></progress><div class="mission-meta"><small>Nova · +100 folhas</small><a class="game-button game-button--green" href="options.html?tema=tres-rs">Explorar</a></div></div>
+            <div class="mission-copy"><span class="mission-tag">Hábitos</span><h2>Os 3 Rs</h2><p>Pratique reduzir, reutilizar e reciclar antes de descartar.</p><progress class="mission-progress" value="0" max="3" aria-label="0 de 3 fases concluídas"></progress><div class="mission-meta"><small data-mission-count>0/3 fases · recompensas na trilha</small><a class="game-button game-button--green" href="phases.html#theme-tres-rs">Explorar</a></div></div>
           </article>
-          <article class="mission-card scroll-sign">
+          <article class="mission-card scroll-sign" data-mission-theme="plantio">
             <span class="mission-badge sprite-4" role="img" aria-label="Muda crescendo"></span>
-            <div class="mission-copy"><span class="mission-tag">Biodiversidade</span><h2>Plantio</h2><p>Prepare o solo, plante espécies adequadas e cuide das mudas.</p><progress class="mission-progress" value="0" max="5" aria-label="Missão ainda não iniciada"></progress><div class="mission-meta"><small>Nova · +120 folhas</small><a class="game-button game-button--green" href="options.html?tema=plantio">Explorar</a></div></div>
+            <div class="mission-copy"><span class="mission-tag">Biodiversidade</span><h2>Plantio</h2><p>Prepare o solo, plante espécies adequadas e cuide das mudas.</p><progress class="mission-progress" value="0" max="3" aria-label="0 de 3 fases concluídas"></progress><div class="mission-meta"><small data-mission-count>0/3 fases · recompensas na trilha</small><a class="game-button game-button--green" href="phases.html#theme-plantio">Explorar</a></div></div>
           </article>
-          <article class="mission-card scroll-sign">
+          <article class="mission-card scroll-sign" data-mission-theme="desmatamento">
             <span class="mission-badge sprite-5" role="img" aria-label="Toco com broto novo"></span>
-            <div class="mission-copy"><span class="mission-tag">Florestas</span><h2>Desmatamento</h2><p>Entenda os impactos da perda de florestas e como ajudar na recuperação.</p><progress class="mission-progress" value="0" max="5" aria-label="Missão ainda não iniciada"></progress><div class="mission-meta"><small>Nova · +140 folhas</small><a class="game-button game-button--green" href="options.html?tema=desmatamento">Explorar</a></div></div>
+            <div class="mission-copy"><span class="mission-tag">Florestas</span><h2>Desmatamento</h2><p>Entenda os impactos da perda de florestas e como ajudar na recuperação.</p><progress class="mission-progress" value="0" max="3" aria-label="0 de 3 fases concluídas"></progress><div class="mission-meta"><small data-mission-count>0/3 fases · recompensas na trilha</small><a class="game-button game-button--green" href="phases.html#theme-desmatamento">Explorar</a></div></div>
           </article>
         </div>
         <p class="mission-footer">Etapas e recompensas são exemplos desta versão de demonstração.</p>
       </section>
     </div>
   </main>
+  <script>
+    let savedProgress = {};
+    try { savedProgress = JSON.parse(localStorage.getItem("enviromentAll.progress") || "{}"); } catch { savedProgress = {}; }
+    const completed = new Set(savedProgress.completedLevels || []);
+    const missionLevels = { reciclagem: [1, 2, 11], poluicao: [3, 4, 12], "tres-rs": [5, 6, 13], plantio: [7, 8, 14], desmatamento: [9, 10, 15] };
+    document.querySelectorAll("[data-mission-theme]").forEach((card) => {
+      const count = missionLevels[card.dataset.missionTheme].filter((level) => completed.has(level)).length;
+      const progressBar = card.querySelector(".mission-progress");
+      progressBar.value = count;
+      progressBar.setAttribute("aria-label", `${count} de 3 fases concluídas`);
+      card.querySelector("[data-mission-count]").textContent = `${count}/3 fases concluídas`;
+    });
+  </script>
 </body>
 </html>

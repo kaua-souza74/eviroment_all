@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5ac6e9">
+  <title>Fase · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <link rel="stylesheet" href="phase-play.css">
+  <script src="game-pages.js"></script>
+  <script src="game-audio.js"></script>
+  <script src="phase-play.js" defer></script>
+</head>
+<body>
+  <main class="game-stage phase-play-stage" id="phaseRoot">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:6%;--time:12s;--delay:-3s;--drift:30px;--turn:320deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:93%;--time:14s;--delay:-9s;--drift:-26px;--turn:-300deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:78%;--time:17s;--delay:-13s;--drift:21px;--turn:290deg">
+    </div>
+    <a class="game-back" href="phases.html" aria-label="Voltar à trilha de fases"><span aria-hidden="true">‹</span><span>Trilha</span></a>
+    <div class="game-content phase-play-content">
+      <img class="game-logo play-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <header class="play-hud scroll-sign">
+        <div class="play-hud-row"><span class="play-world-icon" id="worldIcon" aria-hidden="true">♻️</span><div class="play-hud-copy"><small id="worldName">BIOMA</small><strong id="phasePosition">FASE 1 / 15</strong></div><span class="play-xp" id="xpCount">⭐ 0 XP</span></div>
+        <div class="play-progress-track"><span id="taskProgress"></span></div>
+      </header>
+      <section class="play-intro scroll-sign" aria-labelledby="phaseTitle">
+        <p class="play-eyebrow" id="phaseEyebrow">TRILHA DE DESAFIOS</p>
+        <h1 id="phaseTitle">Primeiros passos</h1>
+        <p id="phaseGoal"></p>
+        <div class="play-learning"><span class="learning-star" aria-hidden="true">✦</span><p id="lessonText"></p></div>
+      </section>
+      <section class="phase-arena scroll-sign" id="phaseArena" aria-label="Área interativa da fase">
+        <div class="phase-scene scene-recycling" id="phaseScene" role="img" aria-label="Cenário da fase">
+          <span class="scene-glow" aria-hidden="true"></span><span class="scene-sparkle sparkle-one" aria-hidden="true">✦</span><span class="scene-sparkle sparkle-two" aria-hidden="true">✧</span>
+          <span class="scene-creature" id="sceneCreature" aria-hidden="true">🐸</span>
+          <span class="scene-caption" id="sceneCaption">Vale da Reciclagem</span>
+        </div>
+        <div class="activity-area" id="activityArea" aria-live="polite"></div>
+        <p class="activity-feedback" id="activityFeedback" role="status" aria-live="polite"></p>
+      </section>
+      <p class="play-footnote">Aprenda, tente de novo e descubra novas maneiras de cuidar do planeta.</p>
+    </div>
+  </main>
+</body>
+</html>

@@ -49,6 +49,22 @@ final result: blocked
 ## Missões, loja e acabamento cartunesco
 
 - Adicionadas páginas de missões e loja da floresta, sprites próprios, animação de placas ao entrar na área visível e navegação pelo menu.
-- As cinco missões passam seus temas à tela de opções; a loja usa saldo e compras locais de demonstração.
+- As cinco missões apontam para o bioma correspondente na trilha; a loja usa saldo e compras locais de demonstração.
 - Atualizadas as opções da partida para os cinco temas centrais: reciclagem, poluição, 3 Rs, plantio e desmatamento.
 - Esta revisão não foi executada nem conferida visualmente; o usuário fará as checagens.
+
+## Trilha de fases e remoção de Opções
+
+- O bioma e o número da fase vêm da trilha.
+- Menu/Jogar agora abre o mapa vertical com cinco biomas e dez fases numeradas, em pares de introdução e interação.
+- Fase 1 está disponível no protótipo; as demais aparecem bloqueadas até existir gameplay e salvamento de progresso.
+- Controles de som/música desligados agora usam o mesmo tamanho circular dos demais; botões azuis/verdes das páginas compartilhadas usam brilho e contorno CSS sem cápsula branca externa.
+- Esta atualização não foi executada nem conferida visualmente; as checagens ficam com o usuário.
+
+## Fases educativas interativas
+
+- Criados dez desafios com cinco temas e uma fase introdutória mais uma interativa por tema.
+- Conclusões desbloqueiam o próximo número da trilha e atualizam XP, moedas/cristais, missões, conquistas e a pontuação local do ranking.
+- Opções foi removida do menu e do protótipo; o tema agora decorre da fase selecionada.
+- Cabeçalhos das telas compartilhadas trocam as cordas curtas por rebites ornamentais e acomodam títulos longos sem quebra estranha.
+- Esta revisão não foi executada nem conferida visualmente; as checagens ficam com o usuário.

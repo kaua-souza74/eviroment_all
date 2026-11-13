@@ -12,7 +12,7 @@ Guardar preferências permanentes de áudio, acessibilidade e idioma.
 
 ## Diferença para opções
 
-Configurações se aplicam ao jogo inteiro e permanecem entre partidas. Opções escolhem o modo, tema e dificuldade da próxima partida.
+Configurações se aplicam ao jogo inteiro e permanecem entre partidas. A trilha determina tema e tipo de atividade; a preferência de dicas e acessibilidade vive nas configurações persistentes.
 
 ## Controles
 
@@ -20,6 +20,7 @@ Configurações se aplicam ao jogo inteiro e permanecem entre partidas. Opções
 - Efeitos sonoros: volume ajustável.
 - Acessibilidade: reduzir animações e ampliar texto.
 - Idioma: português, inglês e espanhol.
+- A trilha e os efeitos da demonstração são sintetizados no navegador; música e efeitos podem ser desligados separadamente. A trilha começa após a primeira interação caso o navegador bloqueie reprodução automática.
 - `Salvar` persiste as preferências; `Padrão` restaura os valores iniciais.
 
 ## Referência

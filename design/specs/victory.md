@@ -16,21 +16,21 @@ Celebrar a conclusão de uma fase, mostrar a pontuação de estrelas e recompens
 ## Conteúdo e dados
 
 - Título: `Você venceu!`
-- Linha secundária: `Fase 15` (substituir pelo nível concluído)
+- Linha secundária: fase, tema e estrelas recebidas (substituir pelos dados do resultado)
 - Recompensas de referência: `500` moedas e `50` cristais; valores vêm do resultado real da fase.
 - A primeira, segunda e terceira estrelas refletem o desempenho. Se o jogo não calcular estrelas, mostrar apenas as recebidas sem sugerir uma avaliação inexistente.
 
 ## Comportamento
 
-- A entrada da tela pode revelar placa, estrelas e painel em sequência curta, sem bloquear interação por tempo excessivo.
-- Folhas caem continuamente ao fundo; controles e placa entram com animação curta. Respeitar a preferência por movimento reduzido.
+- A vitória dispara confetes e brilhos nas estrelas; placa, recompensas, folhas, controles e botões têm animações curtas. Respeitar a preferência por movimento reduzido.
+- Efeitos, notas de vitória e trilha ambiente são sintetizados pelo Web Audio localmente, sem dependência de arquivo externo. Música e efeitos usam controles independentes; volume de efeitos vem das configurações. O navegador inicia o áudio após interação quando a reprodução automática estiver bloqueada.
 - `Próxima fase` inicia a próxima fase desbloqueada.
 - `Início` retorna ao menu principal.
 - A caixa de recompensas não pode encostar nem se sobrepor ao botão de próxima fase.
 - Som e música alternam suas preferências; estado ligado/desligado deve ser evidente e acessível.
 - Ao desligar som ou música, mostrar o controle vermelho correspondente e atualizar o rótulo acessível e visível para o estado desligado.
 - Ajuda abre a explicação dos controles ou das regras da fase concluída.
-- Repetir reinicia a fase atual após confirmação quando o reinício apagar progresso não salvo.
+- Repetir abre a fase atual novamente; o progresso da demonstração é salvo imediatamente no navegador.
 
 ## Layout adaptável
 

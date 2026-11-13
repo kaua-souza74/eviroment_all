@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6bc9e9">
+  <title>Trilha de fases · Enviroment All</title>
+  <link rel="stylesheet" href="game-pages.css">
+  <script src="game-pages.js"></script>
+  <script src="game-audio.js"></script>
+</head>
+<body>
+  <main class="game-stage phase-stage">
+    <div class="game-leaves" aria-hidden="true">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:5%;--time:13s;--delay:-4s;--drift:28px;--turn:310deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:92%;--time:16s;--delay:-9s;--drift:-24px;--turn:-325deg">
+      <img class="game-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:78%;--time:15s;--delay:-12s;--drift:20px;--turn:300deg">
+    </div>
+    <a class="game-back" href="menu.html" aria-label="Voltar ao menu"><span aria-hidden="true">‹</span><span>Voltar</span></a>
+    <div class="game-content phase-content">
+      <img class="game-logo" src="../assets/brand/enviroment-all-logo.png" alt="Enviroment All">
+      <header class="phase-hero scroll-sign">
+        <p class="phase-eyebrow">SUA AVENTURA VERDE</p>
+        <h1>Trilha de desafios</h1>
+        <p>Suba pelo caminho, descubra cada bioma e ajude a natureza!</p>
+        <div class="trail-progress" aria-label="Progresso da trilha: 0 de 15 fases"><span>⭐</span><div><b>Primeiros passos</b><small>0 de 15 fases concluídas</small></div><span class="trail-progress-count">1/15</span></div>
+      </header>
+
+      <section class="world-section world-recycling scroll-sign" id="theme-reciclagem" aria-labelledby="title-recycling">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">♻️</span><div><small>BIOMA 1</small><h2 id="title-recycling">Vale da Reciclagem</h2></div><span class="world-stamp">🌿</span></div>
+        <p class="world-intro">Tudo começa com escolhas simples: para onde vai cada material?</p>
+        <div class="phase-route">
+          <svg class="phase-road" viewBox="0 0 360 230" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/><path class="road-center" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/></svg>
+          <a class="phase-stop phase-stop--right is-current" data-phase-link="1" href="phase-play.html?fase=1" aria-label="Fase 1, Primeiros passos da reciclagem, disponível">
+            <span class="phase-node"><span class="phase-number">1</span><span class="phase-stars">★ ★ ★</span></span><span class="phase-label"><b>Primeiros passos</b><small>Conheça as lixeiras</small></span>
+          </a>
+          <a class="phase-stop phase-stop--left is-locked" data-phase-link="2" href="phase-play.html?fase=2" aria-disabled="true" aria-label="Fase 2 bloqueada, Esteira de triagem">
+            <span class="phase-node"><span class="phase-number">2</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Esteira de triagem</b><small>Separe os materiais</small></span>
+          </a>
+          <span class="phase-treasure" aria-hidden="true">🎁</span>
+        </div>
+      </section>
+
+      <section class="world-section world-pollution scroll-sign" id="theme-poluicao" aria-labelledby="title-pollution">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">💧</span><div><small>BIOMA 2</small><h2 id="title-pollution">Baía das Águas Claras</h2></div><span class="world-stamp">🐟</span></div>
+        <p class="world-intro">Investigue o que suja o ar e os rios e devolva vida à baía.</p>
+        <div class="phase-route">
+          <svg class="phase-road" viewBox="0 0 360 230" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/><path class="road-center" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/></svg>
+          <a class="phase-stop phase-stop--right is-locked" data-phase-link="3" href="phase-play.html?fase=3" aria-disabled="true" aria-label="Fase 3 bloqueada, O que está no ar?">
+            <span class="phase-node"><span class="phase-number">3</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>O que está no ar?</b><small>Descubra as causas</small></span>
+          </a>
+          <a class="phase-stop phase-stop--left is-locked" data-phase-link="4" href="phase-play.html?fase=4" aria-disabled="true" aria-label="Fase 4 bloqueada, Resgate do rio">
+            <span class="phase-node"><span class="phase-number">4</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Resgate do rio</b><small>Limpe e restaure</small></span>
+          </a>
+          <span class="phase-treasure" aria-hidden="true">🫧</span>
+        </div>
+      </section>
+
+      <section class="world-section world-three-rs scroll-sign" id="theme-tres-rs" aria-labelledby="title-three-rs">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">📦</span><div><small>BIOMA 3</small><h2 id="title-three-rs">Montanhas dos 3 Rs</h2></div><span class="world-stamp">✨</span></div>
+        <p class="world-intro">Reduzir, reutilizar e reciclar: três poderes para mudar o destino dos objetos.</p>
+        <div class="phase-route">
+          <svg class="phase-road" viewBox="0 0 360 230" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/><path class="road-center" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/></svg>
+          <a class="phase-stop phase-stop--right is-locked" data-phase-link="5" href="phase-play.html?fase=5" aria-disabled="true" aria-label="Fase 5 bloqueada, Os três poderes">
+            <span class="phase-node"><span class="phase-number">5</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Os três poderes</b><small>Aprenda os 3 Rs</small></span>
+          </a>
+          <a class="phase-stop phase-stop--left is-locked" data-phase-link="6" href="phase-play.html?fase=6" aria-disabled="true" aria-label="Fase 6 bloqueada, Oficina de reuso">
+            <span class="phase-node"><span class="phase-number">6</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Oficina de reuso</b><small>Transforme objetos</small></span>
+          </a>
+          <span class="phase-treasure" aria-hidden="true">🧰</span>
+        </div>
+      </section>
+
+      <section class="world-section world-planting scroll-sign" id="theme-plantio" aria-labelledby="title-planting">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">🌱</span><div><small>BIOMA 4</small><h2 id="title-planting">Jardins da Esperança</h2></div><span class="world-stamp">🦋</span></div>
+        <p class="world-intro">Toda floresta começa pequena. Aprenda o que uma muda precisa para crescer.</p>
+        <div class="phase-route">
+          <svg class="phase-road" viewBox="0 0 360 230" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/><path class="road-center" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/></svg>
+          <a class="phase-stop phase-stop--right is-locked" data-phase-link="7" href="phase-play.html?fase=7" aria-disabled="true" aria-label="Fase 7 bloqueada, O segredo da semente">
+            <span class="phase-node"><span class="phase-number">7</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Segredo da semente</b><small>Sol, água e cuidado</small></span>
+          </a>
+          <a class="phase-stop phase-stop--left is-locked" data-phase-link="8" href="phase-play.html?fase=8" aria-disabled="true" aria-label="Fase 8 bloqueada, Jardim em ação">
+            <span class="phase-node"><span class="phase-number">8</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Jardim em ação</b><small>Plante o seu canteiro</small></span>
+          </a>
+          <span class="phase-treasure" aria-hidden="true">🌼</span>
+        </div>
+      </section>
+
+      <section class="world-section world-forest scroll-sign" id="theme-desmatamento" aria-labelledby="title-forest">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">🌳</span><div><small>BIOMA 5</small><h2 id="title-forest">Floresta dos Guardiões</h2></div><span class="world-stamp">🦜</span></div>
+        <p class="world-intro">Proteja habitats, descubra os impactos do desmatamento e ajude a mata a renascer.</p>
+        <div class="phase-route">
+          <svg class="phase-road" viewBox="0 0 360 230" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/><path class="road-center" d="M270 34 C90 24 82 94 174 112 S290 187 92 198"/></svg>
+          <a class="phase-stop phase-stop--right is-locked" data-phase-link="9" href="phase-play.html?fase=9" aria-disabled="true" aria-label="Fase 9 bloqueada, Quando a mata desaparece">
+            <span class="phase-node"><span class="phase-number">9</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Quando a mata some</b><small>Conheça os impactos</small></span>
+          </a>
+          <a class="phase-stop phase-stop--left is-locked" data-phase-link="10" href="phase-play.html?fase=10" aria-disabled="true" aria-label="Fase 10 bloqueada, Guardiões da floresta">
+            <span class="phase-node"><span class="phase-number">10</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Guardiões da floresta</b><small>Recupere o habitat</small></span>
+          </a>
+          <span class="phase-treasure" aria-hidden="true">🏆</span>
+        </div>
+      </section>
+      <section class="world-section world-bonus scroll-sign" id="theme-bonus" aria-labelledby="title-bonus">
+        <div class="world-banner"><span class="world-icon" aria-hidden="true">🏅</span><div><small>EXPEDIÇÃO ESPECIAL</small><h2 id="title-bonus">Desafios de guardião</h2></div><span class="world-stamp">✨</span></div>
+        <p class="world-intro">Fases extras misturam os temas da trilha e pedem atenção aos detalhes.</p>
+        <div class="phase-route phase-route--bonus">
+          <svg class="phase-road" viewBox="0 0 360 540" preserveAspectRatio="none" aria-hidden="true"><path class="road-edge" d="M72 38 C280 55 285 120 174 150 S85 225 265 260 S285 350 165 372 S78 450 270 500"/><path class="road-center" d="M72 38 C280 55 285 120 174 150 S85 225 265 260 S285 350 165 372 S78 450 270 500"/></svg>
+          <a class="phase-stop phase-stop--bonus-1 is-locked" data-phase-link="11" href="phase-play.html?fase=11" aria-disabled="true" aria-label="Fase 11 bloqueada, Regras da coleta"><span class="phase-node"><span class="phase-number">11</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Regras da coleta</b><small>Triagem avançada</small></span></a>
+          <a class="phase-stop phase-stop--bonus-2 is-locked" data-phase-link="12" href="phase-play.html?fase=12" aria-disabled="true" aria-label="Fase 12 bloqueada, Chuva na cidade"><span class="phase-node"><span class="phase-number">12</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Chuva na cidade</b><small>Proteja a drenagem</small></span></a>
+          <a class="phase-stop phase-stop--bonus-3 is-locked" data-phase-link="13" href="phase-play.html?fase=13" aria-disabled="true" aria-label="Fase 13 bloqueada, Carrinho consciente"><span class="phase-node"><span class="phase-number">13</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Carrinho consciente</b><small>Escolhas de consumo</small></span></a>
+          <a class="phase-stop phase-stop--bonus-4 is-locked" data-phase-link="14" href="phase-play.html?fase=14" aria-disabled="true" aria-label="Fase 14 bloqueada, Muda resiliente"><span class="phase-node"><span class="phase-number">14</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Muda resiliente</b><small>Equilibre os cuidados</small></span></a>
+          <a class="phase-stop phase-stop--bonus-5 is-locked" data-phase-link="15" href="phase-play.html?fase=15" aria-disabled="true" aria-label="Fase 15 bloqueada, Corredor verde"><span class="phase-node"><span class="phase-number">15</span><span class="phase-lock" aria-hidden="true">🔒</span></span><span class="phase-label"><b>Corredor verde</b><small>Reconecte habitats</small></span></a>
+          <span class="phase-treasure" aria-hidden="true">🎁</span>
+        </div>
+      </section>
+      <p class="phase-map-footer">Complete as fases para abrir novos caminhos. A trilha cresce junto com você!</p>
+    </div>
+  </main>
+  <script>
+    let phaseProgress = {};
+    try { phaseProgress = JSON.parse(localStorage.getItem("enviromentAll.progress") || "{}"); } catch { phaseProgress = {}; }
+    const completedLevels = new Set(Array.isArray(phaseProgress.completedLevels) ? phaseProgress.completedLevels : []);
+    const highestCompleted = Math.max(0, ...Array.from(completedLevels, Number));
+    const unlockedThrough = Math.min(15, Math.max(1, Number(phaseProgress.unlockedThrough || 1), highestCompleted + 1));
+    document.querySelectorAll("[data-phase-link]").forEach((link) => {
+      const level = Number(link.dataset.phaseLink);
+      const complete = completedLevels.has(level);
+      const unlocked = level <= unlockedThrough;
+      link.classList.toggle("is-locked", !unlocked);
+      link.classList.toggle("is-complete", complete);
+      link.classList.toggle("is-current", unlocked && !complete && level === unlockedThrough);
+      link.tabIndex = unlocked ? 0 : -1;
+      if (!unlocked) link.setAttribute("aria-disabled", "true");
+      else link.removeAttribute("aria-disabled");
+      const phaseLabel = link.querySelector(".phase-label b")?.textContent || "fase";
+      link.setAttribute("aria-label", `Fase ${level}, ${phaseLabel}, ${complete ? "concluída" : unlocked ? "disponível" : "bloqueada"}`);
+      const lockBadge = link.querySelector(".phase-lock");
+      if (unlocked && lockBadge) { lockBadge.classList.remove("phase-lock"); lockBadge.classList.add("phase-stars"); }
+      const openBadge = link.querySelector(".phase-stars");
+      if (complete) {
+        const stars = Math.max(1, Math.min(3, Number(phaseProgress.records?.[level]?.stars || 1)));
+        if (openBadge) openBadge.textContent = "★ ".repeat(stars).trim();
+      } else if (unlocked && openBadge) openBadge.textContent = "JOGAR";
+      link.addEventListener("click", (event) => { if (!unlocked) event.preventDefault(); });
+    });
+    const done = completedLevels.size;
+    document.querySelector(".trail-progress small").textContent = `${done} de 15 fases concluídas`;
+    document.querySelector(".trail-progress-count").textContent = `${Math.min(unlockedThrough,15)}/15`;
+    document.querySelector(".trail-progress").setAttribute("aria-label", `Progresso da trilha: ${done} de 15 fases concluídas; fase ${unlockedThrough} desbloqueada`);
+  </script>
+</body>
+</html>

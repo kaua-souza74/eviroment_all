@@ -17,19 +17,17 @@ Ser o ponto de entrada do jogo e deixar o início da aventura ambiental óbvio.
 2. `Entrar / Criar conta`
 3. `Missões`
 4. `Conquistas`
-5. `Opções`
-6. `Configurações`
-7. `Ranking`
-8. `Loja`
-9. `Sair`
+5. `Configurações`
+6. `Ranking`
+7. `Loja`
+8. `Sair`
 
 ## Comportamento
 
-- `Jogar` abre a seleção/continuação de fase. Para pessoa sem progresso, iniciar a primeira fase disponível.
+- `Jogar` abre a trilha vertical de fases; para pessoa sem progresso, a primeira fase disponível é a introdução à reciclagem.
 - `Entrar / Criar conta` abre a tela de login, de onde é possível seguir para o cadastro.
 - `Missões` abre a trilha educativa de reciclagem, poluição, 3 Rs, plantio e desmatamento.
 - `Conquistas` resume os marcos alcançados em fases e boas práticas.
-- `Opções` abre escolhas rápidas do jogo, se disponíveis; caso contrário, pode encaminhar para configurações.
 - `Configurações` controla áudio, idioma e preferências de acessibilidade.
 - `Ranking` mostra pontuações do próprio jogo; conectividade e classificações globais não são pressupostas nesta versão.
 - `Loja` apresenta itens e recompensas internas do jogo; no protótipo, compras e saldo ficam no armazenamento local do navegador.

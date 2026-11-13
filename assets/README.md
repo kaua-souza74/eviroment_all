@@ -8,6 +8,7 @@
 | `screens/login-background.png` | Cenário-base do login | Ilustrado | Céu colorido e interface amigável |
 | `screens/victory-background.png` | Cenário-base da vitória | Ilustrado | Mata escura e folhas de enquadramento |
 | `screens/menu-background.png` | Cenário-base do menu | Ilustrado | Céu, cipós e vegetação na base |
+| `screens/phase-worlds-atlas.png` | Atlas 2×3 de cenários para os minijogos das fases | Ilustrado | Centro de reciclagem, baía, oficina de reuso, jardim, área degradada e floresta restaurada |
 | `ui/login-card.png` | Moldura do cartão de login | Transparente | Referência de login |
 | `ui/menu-plank.png` | Placa reutilizável do menu | Transparente | Referência de menu |
 | `ui/button-green.png` | Botão primário (versão anterior) | Transparente | Mantido como rascunho, não usado pelos HTMLs |

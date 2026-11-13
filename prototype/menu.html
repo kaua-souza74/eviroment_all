@@ -61,6 +61,7 @@
     .menu-action--feature { min-height: 60px; font-size: clamp(18px, 5vw, 23px); }
     .menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 1.7vw, 12px); }
     .menu-grid .menu-action { aspect-ratio: 2.8 / 1; min-height: 52px; padding: 0 8px; font-size: clamp(13px, 3.8vw, 17px); }
+    .menu-grid .menu-action:last-child:nth-child(odd) { grid-column: 1 / -1; width: 52%; justify-self: center; }
     .menu-action--exit { min-height: 54px; font-size: clamp(15px, 4.5vw, 19px); }
     .menu-action:hover { filter: brightness(1.08); transform: translateY(-1px); }
     .menu-action:active { transform: translateY(2px); }
@@ -95,7 +96,6 @@
         <div class="menu-grid" aria-label="Explorar o jogo">
           <button class="menu-action" type="button" data-action="missions">Missões</button>
           <button class="menu-action" type="button" data-action="achievements">Conquistas</button>
-          <button class="menu-action" type="button" data-action="options">Opções</button>
           <button class="menu-action" type="button" data-action="settings">Configurações</button>
           <button class="menu-action" type="button" data-action="ranking">Ranking</button>
           <button class="menu-action" type="button" data-action="shop">Loja</button>
@@ -111,16 +111,17 @@
       <button class="dialog-button" type="button" id="closeDialog">Fechar</button>
     </div>
   </dialog>
+  <script src="game-audio.js"></script>
   <script>
     const dialog = document.querySelector("#menuDialog");
     const title = document.querySelector("#dialogTitle");
     const body = document.querySelector("#dialogBody");
     const actions = document.querySelector("#dialogActions");
-    const pages = { missions: "missions.html", achievements: "achievements.html", options: "options.html", settings: "settings.html", ranking: "ranking.html", shop: "shop.html" };
+    const pages = { missions: "missions.html", achievements: "achievements.html", settings: "settings.html", ranking: "ranking.html", shop: "shop.html" };
     document.querySelectorAll("[data-action]").forEach((button) => {
       button.addEventListener("click", () => {
         const action = button.dataset.action;
-        if (action === "play") { window.location.href = "victory.html"; return; }
+        if (action === "play") { window.location.href = "phases.html"; return; }
         if (action === "login") { window.location.href = "login.html"; return; }
         if (pages[action]) { window.location.href = pages[action]; return; }
         const [heading, message] = ["Sair", "Este protótipo roda no navegador. Volte à tela de login para percorrer o fluxo novamente."];

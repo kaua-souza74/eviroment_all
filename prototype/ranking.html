@@ -7,6 +7,7 @@
   <title>Ranking · Enviroment All</title>
   <link rel="stylesheet" href="game-pages.css">
   <script src="game-pages.js"></script>
+  <script src="game-audio.js"></script>
 </head>
 <body>
   <main class="game-stage">
@@ -67,12 +68,16 @@
       }
     };
     const list = document.querySelector("#rankingList");
+    let savedProgress = {};
+    try { savedProgress = JSON.parse(localStorage.getItem("enviromentAll.progress") || "{}"); } catch { savedProgress = {}; }
     function showGroup(key) {
       const group = groups[key];
       document.querySelector("#leagueTitle").textContent = group.title;
       document.querySelector("#leaguePeriod").textContent = group.period;
-      document.querySelector("#playerPlace").textContent = group.me;
-      list.replaceChildren(...group.players.map((player, index) => {
+      const players = group.players.map((player) => player.you ? { ...player, score: Number(savedProgress.xp || 0) } : player).sort((a, b) => b.score - a.score);
+      const ownPosition = players.findIndex((player) => player.you) + 1;
+      document.querySelector("#playerPlace").textContent = `Sua posição: ${ownPosition}º`;
+      list.replaceChildren(...players.map((player, index) => {
         const row = document.createElement("li");
         row.className = `ranking-row scroll-sign${player.you ? " is-you" : ""}`;
         const medal = document.createElement("span");

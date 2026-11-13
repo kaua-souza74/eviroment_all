@@ -13,7 +13,7 @@ Apresentar a trilha educativa e encaminhar cada tema à configuração da próxi
 
 ## Interações
 
-- Explorar grava o tema escolhido em `enviromentAll.matchOptions` e abre Opções da partida já com o tema selecionado.
+- Explorar leva ao capítulo correspondente na trilha de fases; cada fase já define tema, estilo e desafio.
 - As placas e cartões entram no viewport com movimento de subida e balanço curto; folhas atravessam o cenário.
 - A preferência de reduzir animações desliga esses movimentos.
 

@@ -7,6 +7,7 @@
   <title>Conquistas · Enviroment All</title>
   <link rel="stylesheet" href="game-pages.css">
   <script src="game-pages.js"></script>
+  <script src="game-audio.js"></script>
 </head>
 <body>
   <main class="game-stage">
@@ -20,42 +21,59 @@
       <h1 class="game-heading scroll-sign">Conquistas</h1>
       <section class="game-panel scroll-sign" aria-label="Progresso das conquistas ambientais">
         <p class="panel-intro">Cada pequena atitude conta. Continue sua jornada por um planeta mais limpo.</p>
-        <div class="achievement-summary scroll-sign"><strong>Seu álbum ambiental</strong><span>2 de 6 liberadas</span></div>
+        <div class="achievement-summary scroll-sign"><strong>Progresso da trilha</strong><span id="achievementSummaryCount">0/15 fases</span></div>
         <div class="achievement-grid">
-          <article class="achievement-card scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Separação correta</h2></div>
-            <p>Separe resíduos recicláveis em cinco fases.</p>
-            <div class="achievement-progress"><span>Completa</span><progress value="5" max="5" aria-label="5 de 5 fases"></progress><span>5/5</span></div>
+          <article class="achievement-card scroll-sign" data-achievement-levels="1,2,11">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Reciclagem consciente</h2></div>
+            <p>Aprenda a separar e encaminhar materiais.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="3" aria-label="0 de 3 fases"></progress><span data-achievement-count>0/2</span></div>
           </article>
-          <article class="achievement-card is-water scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Guardião da água</h2></div>
-            <p>Escolha atitudes que economizam água.</p>
-            <div class="achievement-progress"><span>7/10</span><progress value="7" max="10" aria-label="7 de 10 ações"></progress><span>70%</span></div>
+          <article class="achievement-card is-water scroll-sign" data-achievement-levels="3,4,12">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Guardião das águas</h2></div>
+            <p>Investigue a poluição e cuide dos rios.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="3" aria-label="0 de 3 fases"></progress><span data-achievement-count>0/2</span></div>
           </article>
-          <article class="achievement-card is-sun scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Energia consciente</h2></div>
-            <p>Identifique formas de reduzir o consumo.</p>
-            <div class="achievement-progress"><span>Completa</span><progress value="6" max="6" aria-label="6 de 6 escolhas"></progress><span>6/6</span></div>
+          <article class="achievement-card is-sun scroll-sign" data-achievement-levels="5,6,13">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Mestre dos 3 Rs</h2></div>
+            <p>Pratique reduzir, reutilizar e reciclar.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="3" aria-label="0 de 3 fases"></progress><span data-achievement-count>0/2</span></div>
           </article>
-          <article class="achievement-card is-forest scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Protetor da mata</h2></div>
-            <p>Ajude a preservar florestas e habitats.</p>
-            <div class="achievement-progress"><span>4/8</span><progress value="4" max="8" aria-label="4 de 8 boas práticas"></progress><span>50%</span></div>
+          <article class="achievement-card is-forest scroll-sign" data-achievement-levels="7,8,14">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Jardineiro da vida</h2></div>
+            <p>Descubra como plantar e acompanhar mudas.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="3" aria-label="0 de 3 fases"></progress><span data-achievement-count>0/2</span></div>
           </article>
-          <article class="achievement-card is-clean scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Fase sem resíduos</h2></div>
-            <p>Conclua fases sem deixar lixo no caminho.</p>
-            <div class="achievement-progress"><span>2/5</span><progress value="2" max="5" aria-label="2 de 5 fases"></progress><span>40%</span></div>
+          <article class="achievement-card is-clean scroll-sign" data-achievement-levels="9,10,15">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Guardião da floresta</h2></div>
+            <p>Entenda os impactos e apoie a restauração.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="3" aria-label="0 de 3 fases"></progress><span data-achievement-count>0/2</span></div>
           </article>
-          <article class="achievement-card is-locked scroll-sign">
-            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Mestre ambiental</h2></div>
-            <p>Desbloqueie todas as outras conquistas.</p>
-            <div class="achievement-progress"><span>Bloqueada</span><progress value="0" max="6" aria-label="Bloqueada"></progress><span>0/6</span></div>
+          <article class="achievement-card is-locked scroll-sign" data-achievement-levels="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15">
+            <div class="achievement-top"><span class="achievement-mark"><img src="../assets/ui/falling-leaf.png" alt=""></span><h2>Embaixador do planeta</h2></div>
+            <p>Complete a trilha inteira e compartilhe o que aprendeu.</p>
+            <div class="achievement-progress"><span data-achievement-label>Bloqueada</span><progress value="0" max="15" aria-label="0 de 15 fases"></progress><span data-achievement-count>0/10</span></div>
           </article>
         </div>
         <p class="demo-note">Progresso ilustrativo nesta versão de demonstração.</p>
       </section>
     </div>
   </main>
+  <script>
+    let progressState = {};
+    try { progressState = JSON.parse(localStorage.getItem("enviromentAll.progress") || "{}"); } catch { progressState = {}; }
+    const completedPhases = new Set(progressState.completedLevels || []);
+    document.querySelector("#achievementSummaryCount").textContent = `${completedPhases.size}/15 fases concluídas`;
+    document.querySelectorAll("[data-achievement-levels]").forEach((card) => {
+      const ids = card.dataset.achievementLevels.split(",").map(Number);
+      const count = ids.filter((id) => completedPhases.has(id)).length;
+      const full = count === ids.length;
+      card.classList.toggle("is-locked", count === 0);
+      card.classList.toggle("is-unlocked", full);
+      card.querySelector("progress").value = count;
+      card.querySelector("progress").setAttribute("aria-label", `${count} de ${ids.length} fases concluídas`);
+      card.querySelector("[data-achievement-label]").textContent = full ? "Concluída" : count ? "Em progresso" : "Bloqueada";
+      card.querySelector("[data-achievement-count]").textContent = `${count}/${ids.length}`;
+    });
+  </script>
 </body>
 </html>

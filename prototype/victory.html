@@ -24,14 +24,22 @@
     }
     .leaf-layer { position: absolute; z-index: 2; inset: 0; overflow: hidden; pointer-events: none; }
     .falling-leaf { position: absolute; top: -12%; left: var(--left); width: clamp(17px, 5vw, 25px); height: auto; opacity: 0; animation: leaf-fall var(--duration) linear var(--delay) infinite; }
+    .celebration-layer { position: absolute; z-index: 4; inset: 0; overflow: hidden; pointer-events: none; }
+    .celebration-piece { position: absolute; top: -8%; left: var(--left); width: var(--size); height: calc(var(--size) * 1.5); border: 1px solid #fff7; border-radius: var(--rounding); background: var(--paint); opacity: 0; box-shadow: 0 2px 3px #14351d55; animation: confetti-rain var(--duration) cubic-bezier(.18,.55,.42,1) var(--delay) both; }
+    .celebration-spark { width: auto; height: auto; border: 0; background: none; box-shadow: none; color: #fff8b2; font-size: var(--size); text-shadow: 0 0 12px #ffe681; }
     .victory-layout { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: clamp(8px, 1.4svh, 12px); width: 100%; min-height: 100svh; padding: 0 0 max(8px, env(safe-area-inset-bottom)); }
-    .victory-board { position: relative; z-index: 2; flex: 0 0 auto; width: var(--board-width); aspect-ratio: 2 / 3; animation: board-entry 760ms cubic-bezier(.18,.83,.26,1.14) both; }
+    .victory-board { position: relative; z-index: 2; flex: 0 0 auto; width: var(--board-width); aspect-ratio: 2 / 3; transform-origin: 50% 0; animation: board-entry 760ms cubic-bezier(.18,.83,.26,1.14) both; }
+    .victory-board.is-settled { animation: board-sway 4.8s ease-in-out infinite; }
     .board-art { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .star-glint { position: absolute; z-index: 2; top: 25%; color: #fffbc5; font-size: clamp(18px, 6vw, 25px); opacity: 0; text-shadow: 0 0 10px #fff3a2,0 0 18px #ffb531; animation: glint-pop 1.05s ease-out var(--delay) both; pointer-events: none; }
+    .star-glint--one { left: 22%; --delay: 350ms; }.star-glint--two { left: 48%; top: 21%; --delay: 520ms; }.star-glint--three { right: 22%; --delay: 680ms; }
+    .star-orbit { position: absolute; z-index: 3; top: 27%; left: 47%; font-size: 18px; animation: orbit-twinkle 2.8s ease-in-out 850ms infinite; pointer-events: none; }
     .victory-title { position: absolute; top: 37.5%; left: 10%; right: 10%; margin: 0; color: #ffb83f; text-align: center; font-family: "Trebuchet MS", system-ui, sans-serif; font-size: clamp(24px, 6.6vw, 30px); line-height: 1.05; font-weight: 900; letter-spacing: -.025em; text-shadow: 0 2px 0 #854318; animation: title-pop 520ms cubic-bezier(.16,.82,.23,1.2) 300ms both; }
     .level { position: absolute; top: 43.8%; left: 50%; display: flex; align-items: center; justify-content: center; width: max-content; min-width: 98px; padding: 3px 13px; margin: 0; transform: translateX(-50%); border: 1px solid #c87935; border-radius: 999px; color: #743d1e; background: #ffe4a0; box-shadow: inset 0 1px 0 #fff9d9, 0 2px 3px #8c4a2570; text-align: center; font-family: "Trebuchet MS", system-ui, sans-serif; font-size: clamp(15px, 4vw, 18px); line-height: 1.1; font-weight: 1000; letter-spacing: .06em; text-transform: uppercase; text-shadow: none; }
-    .reward-card { position: absolute; top: 49.5%; left: 17%; right: 17%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; min-height: 16%; padding: 4px 7px; border: 2px solid #fff0c6; border-radius: 18px; color: #885135; background: #e7cf91; box-shadow: inset 0 1px 2px #fff9d7; }
+    .reward-card { position: absolute; top: 49.5%; left: 17%; right: 17%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; min-height: 16%; padding: 4px 7px; overflow: hidden; border: 2px solid #fff0c6; border-radius: 18px; color: #885135; background: #e7cf91; box-shadow: inset 0 1px 2px #fff9d7; animation: reward-arrive 620ms cubic-bezier(.18,.82,.24,1.15) 510ms both; }
+    .reward-card::after { content: ""; position: absolute; inset: -25% auto -25% -70%; width: 45%; transform: skewX(-18deg); background: linear-gradient(90deg,transparent,#fff9c5aa,transparent); animation: reward-shimmer 3.8s ease-in-out 1.4s infinite; pointer-events: none; }
     .reward-card h2 { margin: 0; font-size: clamp(13px, 3.8vw, 17px); line-height: 1.15; }
-    .reward-icons { display: block; width: clamp(90px, 30vw, 118px); max-height: 38px; object-fit: contain; }
+    .reward-icons { display: block; width: clamp(90px, 30vw, 118px); max-height: 38px; object-fit: contain; animation: reward-bob 2s ease-in-out 1.1s infinite; }
     .reward-values { display: flex; justify-content: center; gap: 12px; margin: 0; font-size: clamp(11px, 3.35vw, 14px); font-weight: 900; white-space: nowrap; }
     .image-button { position: absolute; left: 22%; width: 56%; height: 9.2%; display: grid; place-items: center; padding: 0 8px; border: 0; border-radius: 26px; color: white; font-family: "Trebuchet MS", system-ui, sans-serif; font-size: clamp(15px, 4.7vw, 21px); font-weight: 900; letter-spacing: -.015em; text-shadow: 0 2px 2px #28522a; text-decoration: none; background-position: center; background-size: 100% 100%; background-repeat: no-repeat; cursor: pointer; transform-origin: center; animation: button-idle 2.4s ease-in-out 750ms infinite; transition: filter 120ms ease, transform 120ms ease; }
     .image-button:hover { animation-play-state: paused; filter: brightness(1.08); transform: translateY(-1px) scale(1.025); }
@@ -42,8 +50,10 @@
     .controls { position: relative; width: min(88vw, 374px); aspect-ratio: 2172 / 724; animation: controls-entry 520ms ease-out 420ms both; }
     .controls-art { display: block; width: 100%; height: 100%; object-fit: contain; }
     .control-actions { position: absolute; top: 14%; left: 9%; right: 9%; height: 48%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
-    .icon-hit { justify-self: center; align-self: center; width: min(100%, 60px); aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; color: transparent; background: transparent; background-position: center; background-size: contain; background-repeat: no-repeat; cursor: pointer; }
-    .icon-hit[data-toggle="sound"][aria-pressed="false"], .icon-hit[data-toggle="music"][aria-pressed="false"] { width: min(116%, 72px); background-size: 100% 100%; }
+    .icon-hit { justify-self: center; align-self: center; width: min(100%, 60px); aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; color: transparent; background: transparent; background-position: center; background-size: contain; background-repeat: no-repeat; cursor: pointer; transition: transform 150ms ease,filter 150ms ease; }
+    .icon-hit:hover { transform: translateY(-2px) scale(1.06); filter: brightness(1.07); }
+    .icon-hit:active { transform: translateY(1px) scale(.96); }
+    .icon-hit[data-toggle="sound"][aria-pressed="false"], .icon-hit[data-toggle="music"][aria-pressed="false"] { width: min(100%, 60px); background-size: contain; }
     .icon-hit[data-toggle="sound"][aria-pressed="false"] { background-image: url("../assets/ui/sound-off-red-v2.png"); }
     .icon-hit[data-toggle="music"][aria-pressed="false"] { background-image: url("../assets/ui/music-off-red-v2.png"); }
     .icon-hit:focus-visible { outline: 3px solid #fff5a6; outline-offset: -2px; }
@@ -57,9 +67,18 @@
     @media (max-height: 700px) { .victory-layout { gap: 8px; padding-top: 0; padding-bottom: 8px; } .victory-board { width: min(76vw, 320px); } .controls { width: min(78vw, 330px); } }
     @media (max-height: 620px) { .victory-layout { gap: 6px; } .victory-board { width: min(66vw, 280px); } .controls { width: min(70vw, 300px); } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } .falling-leaf { display: none; } }
+    .app-reduced-motion .celebration-layer { display: none; }
+    .app-reduced-motion *, .app-reduced-motion *::before, .app-reduced-motion *::after { animation: none !important; transition: none !important; }
     @keyframes board-entry { 0% { opacity: 0; transform: translateY(-34px) scale(.93); } 72% { opacity: 1; transform: translateY(3px) scale(1.015); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes title-pop { 0% { opacity: 0; transform: translateY(8px) scale(.8); } 75% { opacity: 1; transform: translateY(-2px) scale(1.04); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes controls-entry { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes board-sway { 0%,100% { transform: rotate(-.45deg); } 50% { transform: rotate(.45deg); } }
+    @keyframes glint-pop { 0% { opacity: 0; transform: scale(.1) rotate(-35deg); } 48% { opacity: 1; transform: scale(1.2) rotate(15deg); } 100% { opacity: 0; transform: scale(.7) rotate(35deg); } }
+    @keyframes orbit-twinkle { 0%,100% { transform: translate(0,0) rotate(-10deg) scale(.8); opacity: .65; } 50% { transform: translate(17px,-12px) rotate(18deg) scale(1.2); opacity: 1; } }
+    @keyframes reward-arrive { 0% { opacity: 0; transform: translateY(9px) scale(.92); } 75% { opacity: 1; transform: translateY(-2px) scale(1.025); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes reward-shimmer { 0%,38% { left: -70%; } 70%,100% { left: 140%; } }
+    @keyframes reward-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes confetti-rain { 0% { opacity: 0; transform: translate3d(0,-10vh,0) rotate(0) scale(.7); } 9% { opacity: .96; } 80% { opacity: .9; } 100% { opacity: 0; transform: translate3d(var(--drift),112svh,0) rotate(var(--spin)) scale(1.1); } }
     @keyframes button-idle { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2px) scale(1.035); } }
     @keyframes leaf-fall { 0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0); } 12% { opacity: .82; } 86% { opacity: .82; } 100% { opacity: 0; transform: translate3d(var(--drift), 112svh, 0) rotate(var(--turn)); } }
   </style>
@@ -72,17 +91,22 @@
       <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:76%;--duration:12s;--delay:-7s;--drift:28px;--turn:280deg">
       <img class="falling-leaf" src="../assets/ui/falling-leaf.png" alt="" style="--left:94%;--duration:15s;--delay:-12s;--drift:-26px;--turn:-300deg">
     </div>
+    <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
     <section class="victory-layout" aria-label="Resumo da fase concluída">
       <div class="victory-board">
         <img class="board-art" src="../assets/ui/victory-board-rope-v2.png" alt="">
+        <span class="star-glint star-glint--one" aria-hidden="true">✦</span>
+        <span class="star-glint star-glint--two" aria-hidden="true">✦</span>
+        <span class="star-glint star-glint--three" aria-hidden="true">✦</span>
+        <span class="star-orbit" aria-hidden="true">✨</span>
         <h1 class="victory-title">Você venceu!</h1>
-        <p class="level">Fase 15</p>
+        <p class="level" id="levelLabel">Fase 15</p>
         <section class="reward-card" aria-label="Recompensas recebidas">
           <h2>Suas recompensas</h2>
           <img class="reward-icons" src="../assets/ui/reward-icons.png" alt="Moeda de folha e cristal azul">
-          <p class="reward-values"><span>500 moedas</span><span>50 cristais</span></p>
+          <p class="reward-values"><span id="coinReward">500 moedas</span><span id="crystalReward">50 cristais</span></p>
         </section>
-        <a class="image-button next" href="menu.html">Próxima fase</a>
+        <a class="image-button next" id="nextPhase" href="phases.html">Próxima fase</a>
         <a class="image-button home" href="menu.html">Início</a>
       </div>
       <div class="controls">
@@ -103,24 +127,102 @@
     <p>Revise as escolhas da fase e veja como pequenas ações ajudam a reduzir resíduos e poluição.</p>
     <button class="dialog-button" type="button" id="closeHelp">Entendi</button>
   </dialog>
+  <script src="game-audio.js"></script>
   <script>
+    const victoryParams = new URLSearchParams(window.location.search);
+    const completedPhase = Number(victoryParams.get("fase") || 15);
+    const phaseNames = { recycling: "Reciclagem", pollution: "Poluição", "three-rs": "Os 3 Rs", planting: "Plantio", deforestation: "Floresta", restoration: "Floresta" };
+    const phaseTheme = phaseNames[victoryParams.get("tema")];
+    if (victoryParams.has("fase")) {
+      const earnedStars = Math.max(1, Math.min(3, Number(victoryParams.get("estrelas") || 1)));
+      document.querySelector("#levelLabel").textContent = phaseTheme ? `Fase ${completedPhase} · ${phaseTheme} · ${earnedStars}/3 ★` : `Fase ${completedPhase} · ${earnedStars}/3 ★`;
+      document.querySelector("#coinReward").textContent = `${Number(victoryParams.get("moedas") || 0)} moedas`;
+      document.querySelector("#crystalReward").textContent = `${Number(victoryParams.get("cristais") || 0)} cristais`;
+      const nextButton = document.querySelector("#nextPhase");
+      if (completedPhase < 15) {
+        nextButton.href = `phase-play.html?fase=${completedPhase + 1}`;
+        nextButton.textContent = `Fase ${completedPhase + 1}`;
+      } else {
+        nextButton.href = "phases.html#theme-bonus";
+        nextButton.textContent = "Ver trilha";
+        document.querySelector(".victory-title").textContent = "Trilha completa!";
+      }
+    }
     const status = document.querySelector("#status");
     const helpDialog = document.querySelector("#helpDialog");
+    let savedSettings = {};
+    try { savedSettings = JSON.parse(localStorage.getItem("enviromentAll.settings") || "{}"); } catch { savedSettings = {}; }
+    const reduceMotion = savedSettings.reduceMotion === true || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    ["sound", "music"].forEach((kind) => {
+      const key = kind === "sound" ? "soundOn" : "musicOn";
+      const enabled = savedSettings[key] !== false;
+      const button = document.querySelector(`[data-toggle="${kind}"]`);
+      button.setAttribute("aria-pressed", String(enabled));
+      button.setAttribute("aria-label", `${enabled ? "Desligar" : "Ligar"} ${kind === "sound" ? "som" : "música"}`);
+      document.querySelector(kind === "sound" ? "#soundLabel" : "#musicLabel").textContent = enabled ? (kind === "sound" ? "Som" : "Música") : (kind === "sound" ? "Som off" : "Música off");
+    });
     document.querySelectorAll("[data-toggle]").forEach((button) => {
       button.addEventListener("click", () => {
         const action = button.dataset.toggle;
         if (action === "help") { helpDialog.showModal(); return; }
-        if (action === "replay") { window.location.reload(); return; }
+        if (action === "replay") { window.location.href = "phase-play.html?fase=" + completedPhase; return; }
         const enabled = button.getAttribute("aria-pressed") !== "true";
         button.setAttribute("aria-pressed", String(enabled));
         const label = action === "sound" ? document.querySelector("#soundLabel") : document.querySelector("#musicLabel");
         label.textContent = enabled ? (action === "sound" ? "Som" : "Música") : (action === "sound" ? "Som off" : "Música off");
         button.setAttribute("aria-label", `${enabled ? "Desligar" : "Ligar"} ${action === "sound" ? "som" : "música"}`);
+        savedSettings[action === "sound" ? "soundOn" : "musicOn"] = enabled;
+        localStorage.setItem("enviromentAll.settings", JSON.stringify(savedSettings));
+        window.EnviromentAudio?.setSetting(action === "sound" ? "soundOn" : "musicOn", enabled);
         status.textContent = `${action === "sound" ? "Som" : "Música"} ${enabled ? "ligado" : "desligado"}.`;
       });
     });
     document.querySelector("#closeHelp").addEventListener("click", () => helpDialog.close());
     helpDialog.addEventListener("click", (event) => { if (event.target === helpDialog) helpDialog.close(); });
+    const celebrationLayer = document.querySelector("#celebrationLayer");
+    const celebrationColors = ["#ffd34e", "#64d7ff", "#a2ed55", "#ff7b59", "#fff2a4", "#db91ff"];
+    if (!reduceMotion) {
+      for (let index = 0; index < 38; index++) {
+        const particle = document.createElement("span");
+        particle.className = "celebration-piece" + (index % 6 === 0 ? " celebration-spark" : "");
+        if (index % 6 === 0) particle.textContent = "✦";
+        particle.style.setProperty("--left", Math.round(Math.random() * 100) + "%");
+        particle.style.setProperty("--size", index % 6 === 0 ? (12 + Math.random() * 12) + "px" : (5 + Math.random() * 8) + "px");
+        particle.style.setProperty("--rounding", index % 3 === 0 ? "50%" : "2px");
+        particle.style.setProperty("--paint", celebrationColors[index % celebrationColors.length]);
+        particle.style.setProperty("--duration", (4.5 + Math.random() * 3) + "s");
+        particle.style.setProperty("--delay", (Math.random() * 1.7) + "s");
+        particle.style.setProperty("--drift", (Math.random() * 140 - 70) + "px");
+        particle.style.setProperty("--spin", (Math.random() * 900 + 360) + "deg");
+        celebrationLayer.append(particle);
+      }
+    }
+    function countReward(selector, amount, suffix, delay) {
+      const output = document.querySelector(selector);
+      if (reduceMotion) {
+        output.textContent = amount.toLocaleString("pt-BR") + " " + suffix;
+        return;
+      }
+      const started = performance.now() + delay;
+      const duration = 850;
+      output.textContent = "0 " + suffix;
+      function frame(now) {
+        const progress = Math.max(0, Math.min(1, (now - started) / duration));
+        const eased = 1 - Math.pow(1 - progress, 3);
+        output.textContent = Math.round(amount * eased).toLocaleString("pt-BR") + " " + suffix;
+        if (progress < 1) requestAnimationFrame(frame);
+        else if (amount > 0) window.EnviromentAudio?.play("coin");
+      }
+      requestAnimationFrame(frame);
+    }
+    countReward("#coinReward", Number(victoryParams.get("moedas") ?? 500), "moedas", 520);
+    countReward("#crystalReward", Number(victoryParams.get("cristais") ?? 50), "cristais", 720);
+    document.querySelector(".victory-board").addEventListener("animationend", (event) => {
+      if (event.animationName === "board-entry") event.currentTarget.classList.add("is-settled");
+    });
+    document.documentElement.classList.toggle("app-reduced-motion", savedSettings.reduceMotion === true);
+    window.EnviromentAudio?.startMusic();
+    window.EnviromentAudio?.play("victory");
   </script>
 </body>
 </html>
