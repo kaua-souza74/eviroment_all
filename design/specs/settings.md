@@ -20,7 +20,7 @@ Configurações se aplicam ao jogo inteiro e permanecem entre partidas. A trilha
 - Efeitos sonoros: volume ajustável.
 - Acessibilidade: reduzir animações e ampliar texto.
 - Idioma: português, inglês e espanhol.
-- A trilha e os efeitos da demonstração são sintetizados no navegador; música e efeitos podem ser desligados separadamente. A trilha começa após a primeira interação caso o navegador bloqueie reprodução automática.
+- A música do menu e das fases usa as faixas em assets/music; música e efeitos de clique podem ser desligados separadamente. A faixa e o ponto atual continuam entre páginas e fases, e retornar à tela inicial seleciona a música do menu. O navegador pode aguardar a primeira interação antes de iniciar a reprodução.
 - `Salvar` persiste as preferências; `Padrão` restaura os valores iniciais.
 
 ## Referência

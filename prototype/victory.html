@@ -211,7 +211,6 @@
         const eased = 1 - Math.pow(1 - progress, 3);
         output.textContent = Math.round(amount * eased).toLocaleString("pt-BR") + " " + suffix;
         if (progress < 1) requestAnimationFrame(frame);
-        else if (amount > 0) window.EnviromentAudio?.play("coin");
       }
       requestAnimationFrame(frame);
     }
@@ -222,7 +221,6 @@
     });
     document.documentElement.classList.toggle("app-reduced-motion", savedSettings.reduceMotion === true);
     window.EnviromentAudio?.startMusic();
-    window.EnviromentAudio?.play("victory");
   </script>
 </body>
 </html>

@@ -23,7 +23,7 @@ Celebrar a conclusão de uma fase, mostrar a pontuação de estrelas e recompens
 ## Comportamento
 
 - A vitória dispara confetes e brilhos nas estrelas; placa, recompensas, folhas, controles e botões têm animações curtas. Respeitar a preferência por movimento reduzido.
-- Efeitos, notas de vitória e trilha ambiente são sintetizados pelo Web Audio localmente, sem dependência de arquivo externo. Música e efeitos usam controles independentes; volume de efeitos vem das configurações. O navegador inicia o áudio após interação quando a reprodução automática estiver bloqueada.
+- A fase concluída mantém sua trilha MP3 e o ponto de reprodução ao abrir a vitória e avançar para outra fase. A trilha só troca ao retornar à tela inicial; efeitos de vitória foram removidos. Música e cliques usam controles independentes; volume de cliques vem das configurações. O navegador pode aguardar interação antes de iniciar a reprodução.
 - `Próxima fase` inicia a próxima fase desbloqueada.
 - `Início` retorna ao menu principal.
 - A caixa de recompensas não pode encostar nem se sobrepor ao botão de próxima fase.

@@ -28,6 +28,20 @@
 | `ui/environment-mission-badges.png` | Sprite sheet 3×2 de emblemas ambientais para as trilhas | Transparente | Reciclagem, poluição, 3 Rs, plantio, recuperação florestal |
 | `ui/eco-shop-items.png` | Sprite sheet 3×2 de itens cartunescos para a loja | Transparente | Garrafa, sementes, mochila, luvas, botas e chapéu |
 
+## Faixas de música
+
+| Arquivo | Uso no protótipo |
+| --- | --- |
+| music/Bottles_In_Flight.mp3 | Fases 1–2 · Reciclagem |
+| music/Where_the_River_Bends.mp3 | Fases 3–4 · Água e poluição |
+| music/The_Final_Tally.mp3 | Fases 5–6 · Os 3 Rs |
+| music/Beneath_the_Canopy.mp3 | Fases 7–8 · Plantio |
+| music/Sentry_of_the_Ancient_Vale.mp3 | Fases 9–10 · Floresta |
+| music/Path_Through_the_Ferns.mp3 | Fases extras 11–15 |
+| music/Threshold_of_the_Wild.mp3 | Menu e demais páginas |
+
+As preferências de música e efeitos são separadas. O protótipo mantém apenas o efeito curto de clique nos controles; a trilha vem dos MP3 anexados. A faixa e sua posição são preservadas ao navegar entre telas e fases; retornar ao menu inicial troca para a música do menu.
+
 ## Notas de integração
 
 - Fundos foram pensados para retrato mobile e deixam espaço de composição para controles feitos no motor do jogo.

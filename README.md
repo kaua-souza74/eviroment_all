@@ -1,8 +1,8 @@
 # enviroment_all
 
-Jogo casual de aprendizagem sobre boas práticas ambientais, incluindo reciclagem, descarte correto e impactos da poluição.
+Jogo educativo casual sobre boas práticas ambientais, com uma trilha de 15 fases e atividades interativas.
 
-Este primeiro pacote registra a direção de marca, as specs das telas de login, vitória e menu, e os assets-base para prototipação.
+O protótipo HTML foi convertido para Flutter. O app tem estrutura Android e Web; a pasta `prototype/` continua disponível como referência visual e funcional.
 
 ## Conteúdo
 
@@ -28,6 +28,10 @@ Este primeiro pacote registra a direção de marca, as specs das telas de login,
 - [Protótipo das fases interativas](prototype/phase-play.html)
 - [Protótipo de missões](prototype/missions.html)
 - [Protótipo da loja](prototype/shop.html)
+- [Aplicativo Flutter](lib/main.dart)
+- [Dados das fases](lib/game_data.dart)
+- [Progresso, preferências e carteira](lib/game_store.dart)
+- [Áudio persistente](lib/audio_service.dart)
 
 ## Premissas desta versão
 
@@ -35,12 +39,27 @@ Este primeiro pacote registra a direção de marca, as specs das telas de login,
 - As telas seguem o formato de jogo mobile em retrato, com referência de layout em 390 × 844 px.
 - As imagens enviadas orientam a composição e o estilo; o conteúdo textual das telas está em português brasileiro.
 - Os fundos gerados são ilustrações sem textos ou controles, para que os elementos de interface possam ser localizados e adaptados no motor do jogo.
-- Os arquivos em `prototype/` ilustram aparência e fluxo; as fases já têm minijogos locais jogáveis. A implementação final será feita em Flutter.
+- O app abre com a animação da marca, segue para login/cadastro demonstrativo e então para o menu. O menu identifica o perfil ativo e permite sair da conta. O acesso não usa servidor nesta etapa.
+- Cada novo login demonstrativo inicia uma sessão limpa: fases, XP, ouro, gemas, itens e recompensas de missão são zerados. As preferências de acessibilidade e áudio permanecem no dispositivo.
+- Toda fase concluída concede ouro e gemas, inclusive ao repetir uma fase; o total varia conforme as estrelas obtidas.
 
-## Áudio do protótipo
+## Áudio
 
-Os efeitos sonoros e a música ambiente são sintetizados no navegador com Web Audio. Por restrições de reprodução automática, o navegador pode aguardar a primeira interação antes de tocar.
+As faixas MP3 do menu e das fases ficam em `assets/music/`; o efeito de clique está em `assets/audio/ui_click.wav`. Um player compartilhado mantém a música e sua posição durante a navegação. As fases usam a faixa correspondente ao tema; voltar ao menu inicial troca para a música do menu. Em navegadores, o primeiro toque pode ser necessário para liberar reprodução.
+
+## Executar o app Flutter
+
+Na raiz do projeto:
+
+```powershell
+flutter pub get
+flutter run -d chrome
+```
+
+Para Android, abra o projeto no Android Studio ou use `flutter run` com um emulador/dispositivo conectado. Perfil demonstrativo, progresso, estrelas, carteira, compras e preferências ficam salvos localmente.
+
+O ranking usa dados ilustrativos. Autenticação real e sincronização online ficam para uma etapa posterior.
 
 ## Abrir os protótipos
 
-Abra qualquer arquivo HTML da pasta `prototype/` no navegador. As quinze fases interativas e o progresso rodam localmente no navegador; autenticação, sincronização online e serviços de ranking ainda não estão conectados.
+Os HTMLs da pasta `prototype/` permanecem como referência; a implementação ativa está em Flutter.

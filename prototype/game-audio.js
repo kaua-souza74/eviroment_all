@@ -1,142 +1,172 @@
 (() => {
   const settingsKey = "enviromentAll.settings";
-  const melody = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880, 698.46, 523.25, 659.25, 783.99, 987.77, 880, 783.99, 659.25, 587.33];
+  const sessionKey = "enviromentAll.musicSession";
+  const menuTrack = "Threshold_of_the_Wild.mp3";
+  const phaseTracks = [
+    { first: 1, last: 2, file: "Bottles_In_Flight.mp3" },
+    { first: 3, last: 4, file: "Where_the_River_Bends.mp3" },
+    { first: 5, last: 6, file: "The_Final_Tally.mp3" },
+    { first: 7, last: 8, file: "Beneath_the_Canopy.mp3" },
+    { first: 9, last: 10, file: "Sentry_of_the_Ancient_Vale.mp3" },
+    { first: 11, last: 15, file: "Path_Through_the_Ferns.mp3" }
+  ];
+  const musicFolder = "../assets/music/";
+  let music;
+  let activeTrack;
+  let pendingPosition = 0;
   let audioContext;
-  let effectsBus;
-  let musicBus;
-  let musicTimer;
-  let musicStep = 0;
-  const pendingSounds = [];
+  let lastSaveAt = 0;
 
   function readSettings() {
     try { return JSON.parse(localStorage.getItem(settingsKey) || "{}"); }
     catch { return {}; }
   }
-  function writeSettings(values) {
-    try { localStorage.setItem(settingsKey, JSON.stringify(values)); }
-    catch { /* Audio stays available for the current page if storage is unavailable. */ }
+  function readSession() {
+    try { return JSON.parse(localStorage.getItem(sessionKey) || "null"); }
+    catch { return null; }
   }
-  function context() {
-    if (audioContext) return audioContext;
-    const Context = window.AudioContext || window.webkitAudioContext;
-    if (!Context) return null;
-    audioContext = new Context();
-    effectsBus = audioContext.createGain();
-    musicBus = audioContext.createGain();
-    effectsBus.connect(audioContext.destination);
-    musicBus.connect(audioContext.destination);
-    syncVolume();
-    return audioContext;
+  function saveSession(track, position, playing) {
+    if (!track) return;
+    try {
+      localStorage.setItem(sessionKey, JSON.stringify({
+        track: track,
+        position: Math.max(0, Number(position) || 0),
+        playing: Boolean(playing),
+        savedAt: Date.now()
+      }));
+    } catch { /* Continue with audio for the current page. */ }
   }
-  function syncVolume() {
-    if (!audioContext || !effectsBus || !musicBus) return;
-    const settings = readSettings();
-    effectsBus.gain.setTargetAtTime((Number(settings.effectsVolume ?? 75) / 100) * 0.42, audioContext.currentTime, 0.04);
-    musicBus.gain.setTargetAtTime(settings.musicOn === false ? 0 : 0.12, audioContext.currentTime, 0.12);
+  function saveCurrentPlayback(playing) {
+    if (!music || !activeTrack) return;
+    saveSession(activeTrack, music.currentTime || pendingPosition, playing);
   }
-  function tone(frequency, startAt, duration, wave, volume, bus, endFrequency) {
-    const ctx = context();
-    if (!ctx || !bus) return;
-    const oscillator = ctx.createOscillator();
-    const envelope = ctx.createGain();
-    oscillator.type = wave || "sine";
-    oscillator.frequency.setValueAtTime(frequency, startAt);
-    if (endFrequency) oscillator.frequency.exponentialRampToValueAtTime(endFrequency, startAt + duration);
-    envelope.gain.setValueAtTime(0.0001, startAt);
-    envelope.gain.exponentialRampToValueAtTime(Math.max(0.0002, volume), startAt + Math.min(0.025, duration * 0.22));
-    envelope.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
-    oscillator.connect(envelope);
-    envelope.connect(bus);
-    oscillator.start(startAt);
-    oscillator.stop(startAt + duration + 0.015);
+  function phaseTrack(phase) {
+    const match = phaseTracks.find((track) => phase >= track.first && phase <= track.last);
+    return match ? match.file : null;
   }
-  function play(name) {
-    const settings = readSettings();
-    if (settings.soundOn === false) return;
-    const ctx = context();
-    if (!ctx) return;
-    const sound = () => {
-      if (name === "victory") {
-        [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => {
-          tone(note, ctx.currentTime + index * 0.12, 0.42, "triangle", 0.16, effectsBus);
-          if (index === 3) tone(note * 1.5, ctx.currentTime + index * 0.12, 0.34, "sine", 0.055, effectsBus);
-        });
-      } else if (name === "correct" || name === "drop") {
-        const notes = name === "drop" ? [440, 659.25] : [587.33, 783.99];
-        notes.forEach((note, index) => tone(note, ctx.currentTime + index * 0.075, 0.2, "triangle", 0.105, effectsBus));
-      } else if (name === "wrong") {
-        tone(300, ctx.currentTime, 0.16, "sawtooth", 0.055, effectsBus, 210);
-      } else if (name === "coin") {
-        tone(987.77, ctx.currentTime, 0.14, "sine", 0.08, effectsBus);
-        tone(1318.5, ctx.currentTime + 0.075, 0.22, "sine", 0.07, effectsBus);
-      } else if (name === "click") {
-        tone(740, ctx.currentTime, 0.065, "sine", 0.045, effectsBus, 930);
-      } else if (name === "leaf") {
-        tone(660, ctx.currentTime, 0.32, "sine", 0.045, effectsBus, 440);
-      }
-    };
-    if (ctx.state === "suspended") {
-      pendingSounds.push(sound);
-      ctx.resume().then(() => {
-        const queued = pendingSounds.splice(0);
-        queued.forEach((playSound) => playSound());
-      }).catch(() => {});
-    } else sound();
+  function selectTrack(session) {
+    const page = window.location.pathname.split("/").pop().toLowerCase();
+    if (page === "menu.html") return menuTrack;
+    const phase = Number(new URLSearchParams(window.location.search).get("fase"));
+    if (page === "phase-play.html" && phase >= 1 && phase <= 15) {
+      if (!session || !session.track || session.track === menuTrack) return phaseTrack(phase);
+    }
+    return session && session.track ? session.track : phaseTrack(phase) || menuTrack;
+  }
+  function tryPlay() {
+    if (!music || readSettings().musicOn === false) return;
+    music.volume = Math.max(0, Math.min(1, Number(readSettings().musicVolume ?? 0.48)));
+    music.play().then(() => saveCurrentPlayback(true)).catch(() => saveCurrentPlayback(false));
   }
   function startMusic() {
-    const settings = readSettings();
-    if (settings.musicOn === false || musicTimer) return;
-    const ctx = context();
-    if (!ctx) return;
-    ctx.resume().then(() => {
-      if (readSettings().musicOn === false || musicTimer) return;
-      syncVolume();
-      musicStep = 0;
-      musicTimer = window.setInterval(() => {
-        if (document.hidden || !musicBus) return;
-        const now = ctx.currentTime + 0.025;
-        const note = melody[musicStep % melody.length];
-        tone(note, now, 0.32, "triangle", 0.42, musicBus);
-        if (musicStep % 4 === 0) tone(note / 2, now, 0.55, "sine", 0.34, musicBus);
-        if (musicStep % 8 === 4) tone(note * 1.25, now, 0.42, "sine", 0.12, musicBus);
-        musicStep++;
-      }, 430);
-    }).catch(() => {});
+    const session = readSession();
+    const track = selectTrack(session);
+    if (readSettings().musicOn === false) {
+      const position = session && session.track === track
+        ? (music && activeTrack === track ? music.currentTime : session.position)
+        : 0;
+      saveSession(track, position, false);
+      return;
+    }
+    if (music && activeTrack === track) {
+      tryPlay();
+      return;
+    }
+
+    const oldTrack = activeTrack;
+    if (music) {
+      saveCurrentPlayback(false);
+      music.pause();
+      music.removeAttribute("src");
+      music.load();
+    }
+    activeTrack = track;
+    const continues = Boolean(session && session.track === track && oldTrack !== track);
+    pendingPosition = continues ? Number(session.position || 0) : 0;
+    if (continues && session.playing) {
+      const elapsed = Math.max(0, (Date.now() - Number(session.savedAt || Date.now())) / 1000);
+      pendingPosition += elapsed;
+    }
+    music = new Audio();
+    music.src = musicFolder + track;
+    music.loop = true;
+    music.preload = "auto";
+    music.playsInline = true;
+    music.volume = Math.max(0, Math.min(1, Number(readSettings().musicVolume ?? 0.48)));
+    music.addEventListener("loadedmetadata", () => {
+      if (!music || activeTrack !== track) return;
+      const duration = Number(music.duration);
+      if (Number.isFinite(duration) && duration > 0) pendingPosition %= duration;
+      try { music.currentTime = pendingPosition; } catch { /* Wait for media metadata before resuming. */ }
+      saveCurrentPlayback(false);
+      tryPlay();
+    }, { once: true });
+    music.addEventListener("timeupdate", () => {
+      const now = Date.now();
+      if (now - lastSaveAt < 900) return;
+      lastSaveAt = now;
+      saveCurrentPlayback(!music.paused);
+    });
+    music.load();
+    saveSession(track, pendingPosition, false);
   }
   function stopMusic() {
-    if (musicTimer) window.clearInterval(musicTimer);
-    musicTimer = null;
-    if (audioContext && musicBus) musicBus.gain.setTargetAtTime(0, audioContext.currentTime, 0.04);
+    if (!music) {
+      const session = readSession();
+      if (session) saveSession(session.track, session.position, false);
+      return;
+    }
+    saveCurrentPlayback(false);
+    music.pause();
+  }
+  function play(name) {
+    if (name !== "click" || readSettings().soundOn === false) return;
+    const Context = window.AudioContext || window.webkitAudioContext;
+    if (!Context) return;
+    if (!audioContext) audioContext = new Context();
+    const oscillator = audioContext.createOscillator();
+    const envelope = audioContext.createGain();
+    const volume = Math.max(0, Math.min(1, Number(readSettings().effectsVolume ?? 75) / 100));
+    const now = audioContext.currentTime;
+    oscillator.type = "triangle";
+    oscillator.frequency.setValueAtTime(780, now);
+    oscillator.frequency.exponentialRampToValueAtTime(480, now + 0.045);
+    envelope.gain.setValueAtTime(0.0001, now);
+    envelope.gain.exponentialRampToValueAtTime(0.045 * volume, now + 0.006);
+    envelope.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+    oscillator.connect(envelope);
+    envelope.connect(audioContext.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 0.06);
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
   }
   function setSetting(name, value) {
     const settings = readSettings();
     settings[name] = value;
-    writeSettings(settings);
-    syncVolume();
+    try { localStorage.setItem(settingsKey, JSON.stringify(settings)); }
+    catch { /* Continue with audio for the current page. */ }
     if (name === "musicOn") value ? startMusic() : stopMusic();
     return value;
   }
   function unlock() {
-    const ctx = context();
-    if (!ctx) return;
-    if (ctx.state === "suspended") ctx.resume().then(() => {
-      const queued = pendingSounds.splice(0);
-      queued.forEach((playSound) => playSound());
-      syncVolume();
-      if (readSettings().musicOn !== false) startMusic();
-    }).catch(() => {});
-    else if (readSettings().musicOn !== false) startMusic();
+    if (audioContext && audioContext.state === "suspended") audioContext.resume().catch(() => {});
+    if (readSettings().musicOn !== false) startMusic();
   }
 
   window.EnviromentAudio = { play, startMusic, stopMusic, setSetting, readSettings };
   document.addEventListener("pointerdown", unlock);
   document.addEventListener("keydown", unlock);
   document.addEventListener("click", (event) => {
-    if (event.target.closest("button, a, summary")) play("click");
+    if (event.target.closest("button, a, summary, input, select, [role=\"button\"]")) play("click");
   });
+  window.addEventListener("pagehide", () => saveCurrentPlayback(music && !music.paused));
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden && audioContext?.state === "running") audioContext.suspend().catch(() => {});
-    else if (!document.hidden) unlock();
+    if (document.hidden) {
+      saveCurrentPlayback(false);
+      if (music) music.pause();
+      return;
+    }
+    unlock();
   });
   startMusic();
 })();

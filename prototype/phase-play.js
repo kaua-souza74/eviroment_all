@@ -189,7 +189,6 @@
     q.answers.forEach((answer) => {
       const button = makeButton(answer.text, "answer-button", () => {
         if (answer.ok) {
-          window.EnviromentAudio?.play("correct");
           grid.querySelectorAll("button").forEach((choice) => { choice.disabled = true; });
           correct++;
           completedTasks++;
@@ -202,7 +201,6 @@
             else renderQuiz();
           });
         } else {
-          window.EnviromentAudio?.play("wrong");
           mistakes++;
           button.classList.add("is-wrong");
           showFeedback((answer.why || q.correction || "Releia o cenário e tente outra combinação.") + " Você ainda pode tentar de novo.", true);
@@ -253,7 +251,6 @@
     function collectTrash(index) {
       const piece = board.querySelectorAll(".cleanup-target")[index];
       if (!piece || piece.classList.contains("is-collected")) return;
-      window.EnviromentAudio?.play("drop");
       piece.classList.add("is-collected");
       piece.setAttribute("aria-label", `${piece.dataset.cleanupItem} removido`);
       cleanupCount++;
@@ -298,7 +295,6 @@
     function placeStep(stepIndex, slotIndex, slot) {
       if (!Number.isInteger(stepIndex) || stepIndex < 0 || !tray.querySelector(`[data-step="${stepIndex}"]`) || slot.classList.contains("is-done")) return;
       if (stepIndex !== slotIndex) {
-        window.EnviromentAudio?.play("wrong");
         mistakes++;
         slot.classList.add("is-wrong");
         showFeedback("Observe o ciclo completo: conhecer o local, preparar, plantar e acompanhar.", true);
@@ -307,7 +303,6 @@
       }
       const source = tray.querySelector(`[data-step="${stepIndex}"]`);
       source?.remove();
-      window.EnviromentAudio?.play("correct");
       slot.classList.add("is-done");
       slot.textContent = `${slotIndex + 1}. ${step.icon} ${step.text}`;
       slot.disabled = true;
@@ -368,7 +363,6 @@
       const item = phase.items[index];
       if (!item || matchPlaced.has(index)) return;
       if (item.target !== targetId) {
-        window.EnviromentAudio?.play("wrong");
         mistakes++;
         const target = targetNodes.get(targetId);
         target?.classList.add("is-wrong");
@@ -377,7 +371,6 @@
         return;
       }
       matchPlaced.add(index);
-      window.EnviromentAudio?.play("drop");
       correct++;
       completedTasks = matchPlaced.size;
       selectedMatchIndex = null;
@@ -422,7 +415,6 @@
       const selected = new Set(Array.from(grid.querySelectorAll(".audit-item.is-selected"), (node) => Number(node.dataset.auditItem)));
       const exact = phase.items.every((item, index) => selected.has(index) === item.hazard);
       if (!exact) {
-        window.EnviromentAudio?.play("wrong");
         mistakes++;
         showFeedback("Ainda há um item arriscado ou um material comum na lista. Reveja vidro, eletrônicos e pilhas.", true);
         grid.querySelectorAll(".audit-item").forEach((node) => node.classList.add("audit-nudge"));
@@ -430,7 +422,6 @@
         return;
       }
       correct = phase.items.length;
-      window.EnviromentAudio?.play("correct");
       completedTasks = phase.items.length;
       renderProgress();
       showFeedback("Inspeção segura! Esses materiais precisam de orientação e destinos próprios.");
@@ -475,13 +466,11 @@
       const chosen = Array.from(selected, ([groupIndex, choiceIndex]) => phase.categories[groupIndex].options[choiceIndex]);
       const total = chosen.reduce((sum, option) => sum + option.cost, 0);
       if (total > phase.budget || chosen.some((option) => !option.good)) {
-        window.EnviromentAudio?.play("wrong");
         mistakes++;
         showFeedback(total > phase.budget ? "O kit passou do orçamento. Reveja o que já pode levar de casa." : "O kit cabe no orçamento, mas ainda pode evitar mais embalagens. Pense no que você já tem.", true);
         return;
       }
       correct = phase.categories.length;
-      window.EnviromentAudio?.play("correct");
       completedTasks = phase.categories.length;
       renderProgress();
       showFeedback("Kit pronto! Planejar o passeio ajudou a reduzir compras e embalagens.");
@@ -520,14 +509,12 @@
       const lightOk = Number(light.value) >= phase.needs.light[0] && Number(light.value) <= phase.needs.light[1];
       const waterOk = Number(water.value) >= phase.needs.water[0] && Number(water.value) <= phase.needs.water[1];
       if (!lightOk || !waterOk) {
-        window.EnviromentAudio?.play("wrong");
         mistakes++;
         showFeedback((!lightOk ? "Reavalie a luz observando o cartão da espécie. " : "") + (!waterOk ? "Confira se o solo está úmido, sem ficar encharcado." : ""), true);
         updatePlant();
         return;
       }
       correct = 2;
-      window.EnviromentAudio?.play("correct");
       completedTasks = 2;
       renderProgress();
       seedling.textContent = "🌼";
